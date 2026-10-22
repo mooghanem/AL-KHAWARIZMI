@@ -3,52 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AL-KHAWARIZMI — Bilingual Engineering & CS Mathematics Lexicon</title>
+  <title>Al-Khawarizmi Engineering & CS Math Lexicon</title>
   
-  <!-- Google Fonts: Playfair Display, Inter, JetBrains Mono, and Cairo for Arabic -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- MathJax for crisp LaTeX rendering -->
+  <!-- MathJax for LaTeX -->
   <script>
     window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']]
-      },
-      svg: { fontCache: 'global' },
-      startup: {
-        pageReady: () => {
-          return MathJax.startup.defaultPageReady();
-        }
-      }
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
     };
   </script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            alabaster: '#F9F8F6',
-            charcoal: '#1A1A1A',
-            taupe: '#EBE5DE',
-            warmgrey: '#6C6863',
-            gold: '#D4AF37',
+            darkbg: '#0f172a',
+            cardbg: '#1e293b',
+            bordercol: '#334155',
+            accent: '#38bdf8',
+            accenthover: '#0ea5e9',
           },
           fontFamily: {
-            serif: ['"Playfair Display"', 'serif'],
             sans: ['Inter', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
+            mono: ['"Fira Code"', 'monospace'],
             arabic: ['Cairo', 'sans-serif'],
-          },
-          transitionDuration: {
-            '1500': '1500ms',
           }
         }
       }
@@ -56,1425 +45,283 @@
   </script>
 
   <style>
-    * {
-      border-radius: 0px !important;
-    }
-    body {
-      background-color: #F9F8F6;
-      color: #1A1A1A;
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-    }
-    .vertical-text {
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-    }
-    /* Gold Sliding Button Effect */
-    .btn-luxury {
-      position: relative;
-      overflow: hidden;
-      transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .btn-luxury::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #D4AF37;
-      transform: translateX(-101%);
-      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      z-index: 0;
-    }
-    .btn-luxury:hover::before {
-      transform: translateX(0);
-    }
-    .btn-luxury > * {
-      position: relative;
-      z-index: 10;
-    }
-    /* Architectural SVG Diagram Hover */
-    .math-diagram {
-      filter: grayscale(100%);
-      transition: all 1200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .group:hover .math-diagram {
-      filter: grayscale(0%);
-      transform: scale(1.03);
-    }
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #F9F8F6;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #1A1A1A;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #D4AF37;
-    }
-    mjx-container {
-      overflow-x: auto;
-      overflow-y: hidden;
-      max-width: 100%;
-      padding: 4px 0;
-    }
+    * { border-radius: 0px !important; }
+    body { background-color: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; }
+    ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+    mjx-container { overflow-x: auto; overflow-y: hidden; max-width: 100%; padding: 4px 0; }
   </style>
 </head>
-<body class="relative min-h-screen selection:bg-gold selection:text-white">
+<body class="min-h-screen flex flex-col selection:bg-accent selection:text-darkbg">
 
-  <!-- Tactile Paper Noise Overlay -->
-  <div class="pointer-events-none fixed inset-0 z-50 opacity-[0.025]" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div>
-
-  <!-- Exposed Architectural Vertical Gridlines -->
-  <div class="pointer-events-none fixed inset-0 z-10 mx-auto max-w-[1600px] px-6 md:px-16">
-    <div class="grid h-full grid-cols-4 md:grid-cols-12">
-      <div class="border-l border-charcoal/10 h-full"></div>
-      <div class="hidden md:block md:col-start-4 border-l border-charcoal/10 h-full"></div>
-      <div class="col-start-2 md:col-start-7 border-l border-charcoal/10 h-full"></div>
-      <div class="hidden md:block md:col-start-10 border-l border-charcoal/10 h-full"></div>
-      <div class="col-start-4 md:col-start-12 border-r border-charcoal/10 h-full"></div>
-    </div>
-  </div>
-
-  <!-- Top Editorial Navigation Bar -->
-  <header class="sticky top-0 z-40 bg-alabaster/95 backdrop-blur-sm border-b border-charcoal">
-    <div class="mx-auto max-w-[1600px] px-6 md:px-16 h-20 flex items-center justify-between">
-      <div class="flex items-center space-x-6">
-        <span class="h-px w-8 bg-charcoal hidden sm:inline-block"></span>
-        <a href="#" class="font-serif text-xl md:text-2xl tracking-tight font-normal text-charcoal">
-          AL-KHAWARIZMI <span class="italic text-gold font-serif">Lexicon</span>
-        </a>
-        <span class="text-[10px] uppercase tracking-[0.25em] text-warmgrey hidden lg:inline-block border-l border-charcoal/20 pl-6">
-          AR → EN Engineering & CS Bridge
-        </a>
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-50 bg-darkbg/95 backdrop-blur border-b border-bordercol">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="bg-accent text-darkbg font-mono font-bold px-2.5 py-1 text-xs">AR-EN</span>
+        <span class="font-bold text-lg tracking-tight">Al-Khawarizmi Lexicon</span>
       </div>
-
-      <!-- Quick Category Jump -->
-      <nav class="hidden xl:flex items-center space-x-8 text-xs uppercase tracking-[0.2em] font-medium">
-        <a href="#lexicon-workspace" onclick="setCategory('all')" class="hover:text-gold transition-colors duration-500">All</a>
-        <a href="#lexicon-workspace" onclick="setCategory('Fundamental Vocabulary')" class="hover:text-gold transition-colors duration-500">Vocabulary</a>
-        <a href="#lexicon-workspace" onclick="setCategory('Geometry & Mensuration')" class="hover:text-gold transition-colors duration-500">Geometry</a>
-        <a href="#lexicon-workspace" onclick="setCategory('Circle Geometry')" class="hover:text-gold transition-colors duration-500">Circles</a>
-        <a href="#lexicon-workspace" onclick="setCategory('Trigonometry')" class="hover:text-gold transition-colors duration-500">Trigonometry</a>
-        <a href="#lexicon-workspace" onclick="setCategory('Algebra & Functions')" class="hover:text-gold transition-colors duration-500">Algebra</a>
-        <a href="#lexicon-workspace" onclick="setCategory('Statistics & Probability')" class="hover:text-gold transition-colors duration-500">Statistics</a>
-        <a href="#lexicon-workspace" onclick="setCategory('Calculus & CS')" class="hover:text-gold transition-colors duration-500">Calculus & CS</a>
+      
+      <!-- Multi-Page Nav Tabs -->
+      <nav class="hidden md:flex items-center space-x-1 text-xs font-medium uppercase tracking-wider">
+        <button onclick="switchPage('home')" class="nav-btn px-3 py-2 hover:text-accent transition-colors" data-page="home">Home / مصطلحات</button>
+        <button onclick="switchPage('geometry')" class="nav-btn px-3 py-2 hover:text-accent transition-colors" data-page="geometry">Geometry</button>
+        <button onclick="switchPage('circles')" class="nav-btn px-3 py-2 hover:text-accent transition-colors" data-page="circles">Circles & Conics</button>
+        <button onclick="switchPage('trig')" class="nav-btn px-3 py-2 hover:text-accent transition-colors" data-page="trig">Trigonometry</button>
+        <button onclick="switchPage('algebra')" class="nav-btn px-3 py-2 hover:text-accent transition-colors" data-page="algebra">Algebra & Matrices</button>
+        <button onclick="switchPage('stats')" class="nav-btn px-3 py-2 hover:text-accent transition-colors" data-page="stats">Statistics</button>
+        <button onclick="switchPage('calculus')" class="nav-btn px-3 py-2 hover:text-accent transition-colors" data-page="calculus">Calculus & CS</button>
       </nav>
 
-      <div class="flex items-center space-x-4">
-        <span id="total-counter" class="text-[10px] uppercase tracking-[0.25em] text-warmgrey border border-charcoal/20 px-3 py-1.5">
-          110+ Definitions
-        </span>
+      <div class="text-xs font-mono text-slate-400">
+        Eng & CS Bridge
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="relative z-20 mx-auto max-w-[1600px] px-6 md:px-16 pt-16 pb-20 md:pt-28 md:pb-32 border-b border-charcoal">
-    <!-- Vertical Side Label -->
-    <div class="hidden xl:block absolute right-6 top-28 vertical-text text-[10px] uppercase tracking-[0.3em] text-warmgrey">
-      ARCHITECTURAL MATHEMATICS COMPENDIUM / VOL. 01
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-end">
-      <div class="md:col-span-8">
-        <div class="flex items-center space-x-4 mb-6">
-          <div class="h-px w-12 bg-gold"></div>
-          <span class="text-xs uppercase tracking-[0.3em] text-warmgrey font-medium">
-            For First-Year Engineering & Computer Science Students
-          </span>
-        </div>
-        <h1 class="font-serif text-5xl sm:text-7xl lg:text-8xl leading-[0.92] tracking-tight text-charcoal mb-8">
-          Master Every <br />
-          <span class="italic text-gold font-normal">Mathematical</span> <br />
-          Definition.
-        </h1>
-      </div>
-
-      <div class="md:col-span-4 border-t border-charcoal pt-6">
-        <p class="text-base md:text-lg text-warmgrey leading-relaxed mb-6">
-          <span class="float-left font-serif text-6xl leading-[0.8] mr-3 text-charcoal">T</span>ransitioning from Arabic high school mathematics to English university lectures shouldn't slow down your engineering degree. Search any term in Arabic or English, inspect its geometric blueprint, and copy clean equations in one click.
-        </p>
-        <div class="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-charcoal pt-4 border-t border-charcoal/15">
-          <span> المساحة $\rightarrow$ Area</span>
-          <span>•</span>
-          <span>وتر $\rightarrow$ Chord</span>
-          <span>•</span>
-          <span>تفاضل $\rightarrow$ Calculus</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Search & Filter Bar -->
-    <div id="lexicon-workspace" class="mt-16 pt-12 border-t border-charcoal grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-      <div class="lg:col-span-5">
-        <label for="search-input" class="block text-[10px] uppercase tracking-[0.25em] text-warmgrey mb-2">
-          Instant Bilingual Search (English / عربي / Symbol)
-        </label>
-        <div class="relative">
-          <input 
-            id="search-input" 
-            type="text" 
-            placeholder="Search 'Quadratic', 'دالة تربيعية', 'Tangent', 'مماس', 'Derivative'..." 
-            class="w-full h-12 bg-transparent border-b border-charcoal px-0 py-2 text-base text-charcoal placeholder:font-serif placeholder:italic placeholder:text-warmgrey focus:outline-none focus:border-gold transition-colors duration-500"
-          />
-          <button id="clear-search" onclick="clearSearch()" class="hidden absolute right-0 top-3 text-xs uppercase tracking-[0.2em] text-warmgrey hover:text-charcoal">
-            [Clear]
-          </button>
-        </div>
-      </div>
-
-      <div class="lg:col-span-7 flex flex-wrap gap-2" id="category-buttons">
-        <!-- Populated dynamically by JS -->
-      </div>
-    </div>
-  </section>
-
-  <!-- Interactive Visual Blueprints Section -->
-  <section class="relative z-20 bg-charcoal text-alabaster border-b border-charcoal py-20 md:py-28">
-    <div class="mx-auto max-w-[1600px] px-6 md:px-16">
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-alabaster/20 pb-8">
-        <div>
-          <div class="flex items-center space-x-4 mb-4">
-            <div class="h-px w-8 bg-gold"></div>
-            <span class="text-[10px] uppercase tracking-[0.3em] text-taupe/70">Visual Reference Plates</span>
-          </div>
-          <h2 class="font-serif text-4xl md:text-6xl tracking-tight">
-            Geometric & Analytic <span class="italic text-gold">Blueprints</span>
-          </h2>
-        </div>
-        <p class="text-sm text-taupe/70 max-w-md mt-4 md:mt-0 leading-relaxed">
-          Hover over any architectural plate to illuminate the key geometric vectors, trigonometric ratios, and conic trajectories.
-        </p>
-      </div>
-
-      <!-- 4 Visual Plates Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-        
-        <!-- Plate 01: Circle Anatomy -->
-        <div class="group border-t-2 border-gold bg-charcoal/50 p-8 border border-alabaster/10 hover:border-gold/60 transition-all duration-700">
-          <div class="flex justify-between items-center text-[10px] uppercase tracking-[0.25em] text-taupe/60 mb-6">
-            <span>Plate 01 / Circle</span>
-            <span class="font-arabic text-xs text-gold">تشريح الدائرة</span>
-          </div>
-          <div class="aspect-square w-full border border-alabaster/15 bg-[#141414] flex items-center justify-center p-4 mb-6 overflow-hidden">
-            <svg viewBox="0 0 240 240" class="w-full h-full math-diagram">
-              <!-- Main Circle -->
-              <circle cx="120" cy="120" r="75" fill="none" stroke="#F9F8F6" stroke-width="1.5"/>
-              <!-- Sector Fill -->
-              <path d="M120,120 L120,45 A75,75 0 0,1 185,82.5 Z" fill="#D4AF37" fill-opacity="0.18"/>
-              <!-- Center Point -->
-              <circle cx="120" cy="120" r="3" fill="#D4AF37"/>
-              <!-- Radius -->
-              <line x1="120" y1="120" x2="185" y2="82.5" stroke="#D4AF37" stroke-width="2"/>
-              <text x="155" y="112" fill="#D4AF37" font-size="9" font-family="Inter">Radius (نصف قطر)</text>
-              <!-- Diameter -->
-              <line x1="45" y1="120" x2="195" y2="120" stroke="#F9F8F6" stroke-width="1" stroke-dasharray="4 2"/>
-              <text x="68" y="133" fill="#EBE5DE" font-size="9" font-family="Inter">Diameter (قطر)</text>
-              <!-- Chord -->
-              <line x1="62" y1="168" x2="178" y2="168" stroke="#D4AF37" stroke-width="2"/>
-              <text x="92" y="162" fill="#D4AF37" font-size="9" font-family="Inter">Chord (وتر)</text>
-              <!-- Tangent -->
-              <line x1="30" y1="195" x2="210" y2="195" stroke="#D4AF37" stroke-width="1.5"/>
-              <circle cx="120" cy="195" r="3" fill="#D4AF37"/>
-              <text x="75" y="212" fill="#D4AF37" font-size="9" font-family="Inter">Tangent (مماس)</text>
-              <!-- Secant -->
-              <line x1="35" y1="95" x2="195" y2="35" stroke="#EBE5DE" stroke-width="1"/>
-              <text x="40" y="65" fill="#EBE5DE" font-size="9" font-family="Inter">Secant (قاطع)</text>
-            </svg>
-          </div>
-          <h3 class="font-serif text-xl mb-2">Circle Elements</h3>
-          <p class="text-xs text-taupe/70 leading-relaxed">
-            Distinguishes <strong class="text-gold">Chord (وتر)</strong>, <strong class="text-gold">Tangent (مماس)</strong>, <strong class="text-gold">Secant (قاطع)</strong>, <strong class="text-gold">Sector (قطاع)</strong>, and <strong class="text-gold">Arc (قوس)</strong>.
-          </p>
-        </div>
-
-        <!-- Plate 02: Right Triangle & Trig -->
-        <div class="group border-t border-alabaster/30 bg-charcoal/50 p-8 border border-alabaster/10 hover:border-gold/60 transition-all duration-700">
-          <div class="flex justify-between items-center text-[10px] uppercase tracking-[0.25em] text-taupe/60 mb-6">
-            <span>Plate 02 / Trigonometry</span>
-            <span class="font-arabic text-xs text-gold">حساب المثلثات</span>
-          </div>
-          <div class="aspect-square w-full border border-alabaster/15 bg-[#141414] flex items-center justify-center p-4 mb-6 overflow-hidden">
-            <svg viewBox="0 0 240 240" class="w-full h-full math-diagram">
-              <!-- Triangle -->
-              <polygon points="40,185 195,185 195,55" fill="#D4AF37" fill-opacity="0.1" stroke="#F9F8F6" stroke-width="1.5"/>
-              <!-- Right Angle Square -->
-              <polyline points="180,185 180,170 195,170" fill="none" stroke="#D4AF37" stroke-width="1.5"/>
-              <!-- Angle Arc -->
-              <path d="M 75,185 A 35,35 0 0,0 68,162" fill="none" stroke="#D4AF37" stroke-width="2"/>
-              <text x="82" y="176" fill="#D4AF37" font-size="12" font-family="Playfair Display" font-style="italic">θ</text>
-              <!-- Labels -->
-              <text x="90" y="205" fill="#F9F8F6" font-size="9.5" font-family="Inter">Adjacent (المجاور)</text>
-              <text x="199" y="125" fill="#D4AF37" font-size="9.5" font-family="Inter" writing-mode="tb">Opposite (المقابل)</text>
-              <text x="80" y="105" fill="#D4AF37" font-size="9.5" font-family="Inter" transform="rotate(-40 95,110)">Hypotenuse (الوتر)</text>
-              <!-- Formulas at top -->
-              <text x="35" y="35" fill="#EBE5DE" font-size="9" font-family="JetBrains Mono">sin θ = Opp / Hyp</text>
-              <text x="35" y="50" fill="#EBE5DE" font-size="9" font-family="JetBrains Mono">cos θ = Adj / Hyp</text>
-              <text x="35" y="65" fill="#D4AF37" font-size="9" font-family="JetBrains Mono">tan θ = Opp / Adj</text>
-            </svg>
-          </div>
-          <h3 class="font-serif text-xl mb-2">Trigonometric Ratios</h3>
-          <p class="text-xs text-taupe/70 leading-relaxed">
-            Maps <strong class="text-gold">جا ($\sin$)</strong>, <strong class="text-gold">جتا ($\cos$)</strong>, <strong class="text-gold">ظا ($\tan$)</strong>, <strong class="text-gold">قا ($\sec$)</strong>, <strong class="text-gold">قتا ($\csc$)</strong>, and <strong class="text-gold">ظتا ($\cot$)</strong> to triangle sides.
-          </p>
-        </div>
-
-        <!-- Plate 03: Parent Functions & Calculus -->
-        <div class="group border-t border-alabaster/30 bg-charcoal/50 p-8 border border-alabaster/10 hover:border-gold/60 transition-all duration-700">
-          <div class="flex justify-between items-center text-[10px] uppercase tracking-[0.25em] text-taupe/60 mb-6">
-            <span>Plate 03 / Functions</span>
-            <span class="font-arabic text-xs text-gold">الدوال والمنحنيات</span>
-          </div>
-          <div class="aspect-square w-full border border-alabaster/15 bg-[#141414] flex items-center justify-center p-4 mb-6 overflow-hidden">
-            <svg viewBox="0 0 240 240" class="w-full h-full math-diagram">
-              <!-- Axes -->
-              <line x1="20" y1="180" x2="220" y2="180" stroke="#6C6863" stroke-width="1"/>
-              <line x1="120" y1="20" x2="120" y2="220" stroke="#6C6863" stroke-width="1"/>
-              <!-- Parabola y = x^2 -->
-              <path d="M 50,40 Q 120,320 190,40" fill="none" stroke="#D4AF37" stroke-width="2"/>
-              <text x="155" y="55" fill="#D4AF37" font-size="9" font-family="JetBrains Mono">f(x) = x²</text>
-              <!-- Tangent Line at point -->
-              <line x1="115" y1="195" x2="205" y2="85" stroke="#F9F8F6" stroke-width="1.2" stroke-dasharray="3 2"/>
-              <circle cx="155" cy="146" r="3.5" fill="#D4AF37"/>
-              <text x="162" y="152" fill="#F9F8F6" font-size="8.5" font-family="Inter">dy/dx (ميل المماس)</text>
-              <!-- Vertex -->
-              <circle cx="120" cy="180" r="3" fill="#F9F8F6"/>
-              <text x="65" y="198" fill="#EBE5DE" font-size="8.5" font-family="Inter">Vertex (رأس المنحنى)</text>
-            </svg>
-          </div>
-          <h3 class="font-serif text-xl mb-2">Quadratic & Derivative</h3>
-          <p class="text-xs text-taupe/70 leading-relaxed">
-            Visualizes the <strong class="text-gold">Parabola (قطع مكافئ)</strong>, <strong class="text-gold">Vertex (رأس المنحنى)</strong>, and <strong class="text-gold">First Derivative (المشتقة الأولى)</strong> slope.
-          </p>
-        </div>
-
-        <!-- Plate 04: 3D Solids & Mensuration -->
-        <div class="group border-t border-alabaster/30 bg-charcoal/50 p-8 border border-alabaster/10 hover:border-gold/60 transition-all duration-700">
-          <div class="flex justify-between items-center text-[10px] uppercase tracking-[0.25em] text-taupe/60 mb-6">
-            <span>Plate 04 / 3D Solids</span>
-            <span class="font-arabic text-xs text-gold">المجسمات الهندسية</span>
-          </div>
-          <div class="aspect-square w-full border border-alabaster/15 bg-[#141414] flex items-center justify-center p-4 mb-6 overflow-hidden">
-            <svg viewBox="0 0 240 240" class="w-full h-full math-diagram">
-              <!-- Cone -->
-              <ellipse cx="120" cy="180" rx="65" ry="20" fill="#D4AF37" fill-opacity="0.15" stroke="#F9F8F6" stroke-width="1.5"/>
-              <line x1="55" y1="180" x2="120" y2="40" stroke="#F9F8F6" stroke-width="1.5"/>
-              <line x1="185" y1="180" x2="120" y2="40" stroke="#D4AF37" stroke-width="2"/>
-              <!-- Height h -->
-              <line x1="120" y1="40" x2="120" y2="180" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="4 2"/>
-              <!-- Radius r -->
-              <line x1="120" y1="180" x2="185" y2="180" stroke="#D4AF37" stroke-width="1.5"/>
-              <text x="103" y="120" fill="#D4AF37" font-size="10" font-family="JetBrains Mono">h</text>
-              <text x="148" y="175" fill="#D4AF37" font-size="10" font-family="JetBrains Mono">r</text>
-              <text x="160" y="108" fill="#D4AF37" font-size="9" font-family="Inter">Slant l (الراسم)</text>
-              <text x="72" y="216" fill="#EBE5DE" font-size="9" font-family="JetBrains Mono">V = (1/3)πr²h</text>
-            </svg>
-          </div>
-          <h3 class="font-serif text-xl mb-2">Solids & Volumes</h3>
-          <p class="text-xs text-taupe/70 leading-relaxed">
-            Covers <strong class="text-gold">Altitude/Height (الارتفاع $h$)</strong>, <strong class="text-gold">Slant Height (طول الراسم $l$)</strong>, <strong class="text-gold">Lateral Area (المساحة الجانبية)</strong>, and <strong class="text-gold">Volume (الحجم)</strong>.
-          </p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Main Bilingual Dictionary & Formula Grid -->
-  <main class="relative z-20 mx-auto max-w-[1600px] px-6 md:px-16 py-20">
-    <!-- Section Status Bar -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-8 mb-12 border-b border-charcoal">
-      <div>
-        <span id="active-category-label" class="text-xs uppercase tracking-[0.3em] text-warmgrey block mb-1">
-          Showing All Categories
-        </span>
-        <h2 class="font-serif text-3xl md:text-4xl text-charcoal">
-          Complete Mathematical <span class="italic text-gold">Reference Matrix</span>
-        </h2>
-      </div>
-      <div class="mt-4 sm:mt-0 text-xs uppercase tracking-[0.2em] text-warmgrey">
-        Click <span class="text-charcoal font-medium border border-charcoal px-2 py-0.5 mx-1">Copy Equation</span> to copy clean English math
-      </div>
-    </div>
-
-    <!-- Dynamic Container for Sections -->
-    <div id="lexicon-container" class="space-y-24">
-      <!-- Rendered via JavaScript -->
-    </div>
-  </main>
-
-  <!-- Toast Notification for Copied Equations -->
-  <div id="copy-toast" class="fixed bottom-8 right-8 z-50 bg-charcoal text-alabaster border-t-4 border-gold px-8 py-5 shadow-[0_8px_32px_rgba(0,0,0,0.25)] translate-y-32 opacity-0 transition-all duration-500 pointer-events-none">
-    <div class="text-[10px] uppercase tracking-[0.25em] text-gold mb-1">Copied to Clipboard</div>
-    <div id="copy-toast-text" class="font-mono text-sm text-alabaster"></div>
+  <!-- Mobile Nav Bar -->
+  <div class="md:hidden bg-cardbg border-b border-bordercol px-4 py-2 flex overflow-x-auto space-x-2 text-xs font-medium uppercase">
+    <button onclick="switchPage('home')" class="nav-btn px-2 py-1 whitespace-nowrap" data-page="home">Home</button>
+    <button onclick="switchPage('geometry')" class="nav-btn px-2 py-1 whitespace-nowrap" data-page="geometry">Geometry</button>
+    <button onclick="switchPage('circles')" class="nav-btn px-2 py-1 whitespace-nowrap" data-page="circles">Circles</button>
+    <button onclick="switchPage('trig')" class="nav-btn px-2 py-1 whitespace-nowrap" data-page="trig">Trig</button>
+    <button onclick="switchPage('algebra')" class="nav-btn px-2 py-1 whitespace-nowrap" data-page="algebra">Algebra</button>
+    <button onclick="switchPage('stats')" class="nav-btn px-2 py-1 whitespace-nowrap" data-page="stats">Stats</button>
+    <button onclick="switchPage('calculus')" class="nav-btn px-2 py-1 whitespace-nowrap" data-page="calculus">Calculus</button>
   </div>
 
-  <!-- Editorial Footer -->
-  <footer class="relative z-20 bg-charcoal text-alabaster border-t border-charcoal py-20">
-    <div class="mx-auto max-w-[1600px] px-6 md:px-16">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-alabaster/15">
-        <div class="md:col-span-6">
-          <span class="text-[10px] uppercase tracking-[0.3em] text-gold block mb-4">
-            Architectural Edition / 2026
-          </span>
-          <h3 class="font-serif text-3xl md:text-5xl tracking-tight mb-4">
-            Bridging Arabic Intuition & <br />
-            <span class="italic text-gold">Global Engineering.</span>
-          </h3>
-        </div>
-        <div class="md:col-span-6 flex flex-col justify-end md:items-end">
-          <p class="text-sm text-taupe/70 max-w-md md:text-right leading-relaxed mb-6">
-            All equations are formatted in standard international English notation for direct use in university exams, LaTeX reports, MATLAB, and Python scripts.
-          </p>
-          <a href="#" class="btn-luxury border border-alabaster px-8 py-3 text-xs uppercase tracking-[0.2em]">
-            <span>Back to Top ↑</span>
-          </a>
+  <!-- Main Content Area -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    
+    <!-- PAGE 1: HOME / MAIN GLOSSARY -->
+    <div id="page-home" class="page-view space-y-8">
+      <div class="bg-cardbg border border-bordercol p-6 sm:p-8">
+        <span class="text-xs font-mono text-accent uppercase tracking-widest block mb-2">Primary Lexicon & Quick Reference</span>
+        <h1 class="font-serif text-3xl sm:text-4xl font-bold mb-4">Core Arabic-English Mathematical Terms</h1>
+        <p class="text-slate-300 text-sm max-w-3xl leading-relaxed">
+          Designed specifically for Arabic math students entering English-medium engineering and computer science colleges. Below are the foundational terms (المصطلحات الأساسية) like Area, Perimeter, Quadratic functions, and Trigonometric ratios.
+        </p>
+      </div>
+
+      <!-- Quick High-Frequency Grid -->
+      <div>
+        <h2 class="text-xl font-bold mb-4 flex items-center justify-between">
+          <span>High-Frequency Core Terms (أهم المصطلحات)</span>
+          <span class="text-xs font-mono text-slate-400">Quick Access</span>
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="core-terms-grid">
+          <!-- Populated via JS -->
         </div>
       </div>
-      <div class="pt-8 flex flex-col sm:flex-row justify-between items-center text-[10px] uppercase tracking-[0.25em] text-taupe/50">
-        <span>Zero-Radius Luxury Editorial System</span>
-        <span class="mt-2 sm:mt-0">Designed for CS & Engineering Students</span>
+    </div>
+
+    <!-- PAGE 2: GEOMETRY & SOLIDS -->
+    <div id="page-geometry" class="page-view hidden space-y-6">
+      <div class="border-b border-bordercol pb-4">
+        <h2 class="text-2xl font-bold">Geometry & Mensuration (الهندسة والقياس)</h2>
+        <p class="text-slate-400 text-sm">Formulas for 2D shapes, polygons, and 3D solids.</p>
       </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="container-geometry"></div>
+    </div>
+
+    <!-- PAGE 3: CIRCLES & CONICS -->
+    <div id="page-circles" class="page-view hidden space-y-6">
+      <div class="border-b border-bordercol pb-4">
+        <h2 class="text-2xl font-bold">Circle Geometry & Conic Sections (هندسة الدائرة والقطوع)</h2>
+        <p class="text-slate-400 text-sm">Chords, tangents, secants, sectors, and conic equations.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="container-circles"></div>
+    </div>
+
+    <!-- PAGE 4: TRIGONOMETRY -->
+    <div id="page-trig" class="page-view hidden space-y-6">
+      <div class="border-b border-bordercol pb-4">
+        <h2 class="text-2xl font-bold">Trigonometry (حساب المثلثات والمتطابقات)</h2>
+        <p class="text-slate-400 text-sm">Trig ratios, identities, and angle rules.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="container-trig"></div>
+    </div>
+
+    <!-- PAGE 5: ALGEBRA & MATRICES -->
+    <div id="page-algebra" class="page-view hidden space-y-6">
+      <div class="border-b border-bordercol pb-4">
+        <h2 class="text-2xl font-bold">Algebra, Functions & Matrices (الجبر والدوال والمصفوفات)</h2>
+        <p class="text-slate-400 text-sm">Quadratic formulas, progressions, logarithms, and linear algebra.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="container-algebra"></div>
+    </div>
+
+    <!-- PAGE 6: STATISTICS -->
+    <div id="page-stats" class="page-view hidden space-y-6">
+      <div class="border-b border-bordercol pb-4">
+        <h2 class="text-2xl font-bold">Statistics & Probability (الإحصاء والاحتمالات)</h2>
+        <p class="text-slate-400 text-sm">Mean, variance, permutations, combinations, and distributions.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="container-stats"></div>
+    </div>
+
+    <!-- PAGE 7: CALCULUS & CS -->
+    <div id="page-calculus" class="page-view hidden space-y-6">
+      <div class="border-b border-bordercol pb-4">
+        <h2 class="text-2xl font-bold">Calculus & Computer Science Rules (التفاضل وتكامل وعلوم الحاسب)</h2>
+        <p class="text-slate-400 text-sm">Limits, derivatives, integrals, big-O complexity, and boolean logic.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="container-calculus"></div>
+    </div>
+
+  </main>
+
+  <!-- Copy Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-accent text-darkbg font-mono text-xs font-bold px-4 py-3 shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    Copied equation to clipboard!
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-cardbg border-t border-bordercol mt-12 py-6">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-400">
+      Al-Khawarizmi Lexicon &bull; Built for Engineering & CS Students
     </div>
   </footer>
 
-  <!-- Complete Bilingual Dataset & Application Logic -->
+  <!-- Application Script -->
   <script>
-    const mathLexicon = [
-      // ==========================================
-      // 1. FUNDAMENTAL VOCABULARY & SYMBOLS
-      // ==========================================
-      {
-        category: "Fundamental Vocabulary",
-        categoryAr: "المصطلحات الأساسية والرموز",
-        en: "Area",
-        ar: "المساحة",
-        sub: "2D Surface Measure",
-        latex: "A = \\iint_{D} dA",
-        copy: "A = Area",
-        note: "Measured in square units (m², cm²). Denoted by A."
-      },
-      {
-        category: "Fundamental Vocabulary",
-        categoryAr: "المصطلحات الأساسية والرموز",
-        en: "Perimeter & Circumference",
-        ar: "المحيط (للمضلعات والدائرة)",
-        sub: "Boundary Length",
-        latex: "P = \\sum s_i \\quad , \\quad C = 2\\pi r",
-        copy: "P = sum(s_i), C = 2*pi*r",
-        note: "Perimeter (P) is for polygons; Circumference (C) is specifically for circles."
-      },
-      {
-        category: "Fundamental Vocabulary",
-        categoryAr: "المصطلحات الأساسية والرموز",
-        en: "Volume",
-        ar: "الحجم",
-        sub: "3D Space Capacity",
-        latex: "V = \\iiint_{E} dV",
-        copy: "V = Volume",
-        note: "Measured in cubic units (m³, cm³). Denoted by V."
-      },
-      {
-        category: "Fundamental Vocabulary",
-        categoryAr: "المصطلحات الأساسية والرموز",
-        en: "Lateral & Total Surface Area",
-        ar: "المساحة الجانبية والكلية",
-        sub: "3D Solid Surfaces",
-        latex: "SA_{\\text{total}} = SA_{\\text{lateral}} + A_{\\text{bases}}",
-        copy: "SA_total = SA_lateral + A_bases",
-        note: "Lateral Area (المساحة الجانبية) excludes the top/bottom bases (القاعدتين)."
-      },
-      {
-        category: "Fundamental Vocabulary",
-        categoryAr: "المصطلحات الأساسية والرموز",
-        en: "Constant, Variable & Coefficient",
-        ar: "ثابت ، متغير ، ومُعامل",
-        sub: "Algebraic Anatomy",
-        latex: "f(x) = a x^n + c",
-        copy: "f(x) = a*x^n + c",
-        note: "a = Coefficient (المعامل), x = Variable (المتغير), n = Exponent/Power (الأس), c = Constant (الثابت)."
-      },
-      {
-        category: "Fundamental Vocabulary",
-        categoryAr: "المصطلحات الأساسية والرموز",
-        en: "Numerator & Denominator",
-        ar: "البسط والمقام",
-        sub: "Rational Fractions (الكسر الاعتيادي)",
-        latex: "\\text{Fraction} = \\frac{\\text{Numerator}}{\\text{Denominator}} = \\frac{p}{q}",
-        copy: "Fraction = Numerator / Denominator = p / q",
-        note: "p is the Numerator (البسط - top), q is the Denominator (المقام - bottom, q ≠ 0)."
-      },
-      {
-        category: "Fundamental Vocabulary",
-        categoryAr: "المصطلحات الأساسية والرموز",
-        en: "Even, Odd, Prime & Rational Numbers",
-        ar: "الأعداد الزوجية، الفردية، الأولية، والنسبية",
-        sub: "Number Sets (مجموعات الأعداد)",
-        latex: "\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R} \\subset \\mathbb{C}",
-        copy: "N subset Z subset Q subset R subset C",
-        note: "Natural (طبيعية N), Integers (صحيحة Z), Rational (نسبية Q), Irrational (غير نسبية), Real (حقيقية R), Complex (مركبة C)."
-      },
-      {
-        category: "Fundamental Vocabulary",
-        categoryAr: "المصطلحات الأساسية والرموز",
-        en: "Domain, Codomain & Range",
-        ar: "المجال، المجال المقابل، والمدى",
-        sub: "Function Mapping",
-        latex: "f: X \\to Y \\quad , \\quad \\text{Range}(f) = \\{f(x) : x \\in X\\}",
-        copy: "f: X -> Y, Range(f) = {f(x) : x in X}",
-        note: "Domain = المجال (inputs X), Codomain = المجال المقابل (Y), Range = المدى (actual outputs)."
-      },
-      {
-        category: "Fundamental Vocabulary",
-        categoryAr: "المصطلحات الأساسية والرموز",
-        en: "Parallel, Perpendicular & Collinear",
-        ar: "متوازيان، متعامدان، وعلى استقامة واحدة",
-        sub: "Geometric Relations",
-        latex: "L_1 \\parallel L_2 \\implies m_1 = m_2 \\quad , \\quad L_1 \\perp L_2 \\implies m_1 m_2 = -1",
-        copy: "m1 = m2 (Parallel), m1 * m2 = -1 (Perpendicular)",
-        note: "Parallel (يوازي ∥), Perpendicular/Orthogonal (عمودي على ⊥), Collinear (نقاط على استقامة واحدة)."
-      },
-      {
-        category: "Fundamental Vocabulary",
-        categoryAr: "المصطلحات الأساسية والرموز",
-        en: "Acute, Obtuse, Right & Reflex Angles",
-        ar: "زاوية حادة، منفرجة، قائمة، ومنعكسة",
-        sub: "Angle Classifications (أنواع الزوايا)",
-        latex: "0^\\circ < \\theta_{\\text{acute}} < 90^\\circ < \\theta_{\\text{obtuse}} < 180^\\circ < \\theta_{\\text{reflex}} < 360^\\circ",
-        copy: "0 < acute < 90 < obtuse < 180 < reflex < 360",
-        note: "Complementary Angles (زاويتان متتامتان) sum to 90°. Supplementary Angles (زاويتان متكاملتان) sum to 180°."
-      },
-      {
-        category: "Fundamental Vocabulary",
-        categoryAr: "المصطلحات الأساسية والرموز",
-        en: "Congruence & Similarity",
-        ar: "التطابق والتشابه",
-        sub: "Geometric Equivalence",
-        latex: "\\triangle ABC \\cong \\triangle DEF \\quad , \\quad \\triangle ABC \\sim \\triangle XYZ",
-        copy: "Congruent: ~= , Similar: ~",
-        note: "Congruent (متطابق ≅: same size & shape). Similar (متشابه ∼: proportional sides, equal angles)."
-      },
-      {
-        category: "Fundamental Vocabulary",
-        categoryAr: "المصطلحات الأساسية والرموز",
-        en: "Bisector, Median & Altitude",
-        ar: "منصف الزاوية، المتوسط، والعمود الساقط (الارتفاع)",
-        sub: "Triangle Lines",
-        latex: "\\text{Centroid} = \\left(\\frac{x_1+x_2+x_3}{3}, \\frac{y_1+y_2+y_3}{3}\\right)",
-        copy: "Centroid = ((x1+x2+x3)/3, (y1+y2+y3)/3)",
-        note: "Angle Bisector (منصف الزاوية), Perpendicular Bisector (محور التماثل / العمود المنصف), Median (متوسط المثلث), Centroid (نقطة تلاقي المتوسطات)."
-      },
+    const lexiconData = [
+      // Core Vocabulary
+      { category: "home", en: "Area", ar: "المساحة", latex: "A = \\iint dA", note: "2D surface measure (m²)." },
+      { category: "home", en: "Perimeter / Circumference", ar: "المحيط", latex: "P = \\sum s_i \\quad , \\quad C = 2\\pi r", note: "Boundary length of shapes and circles." },
+      { category: "home", en: "Quadratic Function", ar: "دالة تربيعية", latex: "f(x) = ax^2 + bx + c", note: "2nd degree polynomial forming a parabola." },
+      { category: "home", en: "Sine (Sin)", ar: "الجيب (جا)", latex: "\\sin\\theta = \\frac{\\text{Opp}}{\\text{Hyp}}", note: "Primary trig ratio." },
+      { category: "home", en: "Cosine (Cos)", ar: "جيب التمام (جتا)", latex: "\\cos\\theta = \\frac{\\text{Adj}}{\\text{Hyp}}", note: "Primary trig ratio." },
+      { category: "home", en: "Cosecant (Csc)", ar: "قاطع التمام (قتا)", latex: "\\csc\\theta = \\frac{1}{\\sin\\theta}", note: "Reciprocal of sine." },
+      { category: "home", en: "Secant (Sec)", ar: "القاطع (قا)", latex: "\\sec\\theta = \\frac{1}{\\cos\\theta}", note: "Reciprocal of cosine." },
+      { category: "home", en: "Derivative", ar: "المشتقة / التفاضل", latex: "f'(x) = \\lim_{h \\to 0} \\frac{f(x+h)-f(x)}{h}", note: "Instantaneous rate of change." },
 
-      // ==========================================
-      // 2. GEOMETRY & MENSURATION (FROM PHOTOS)
-      // ==========================================
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Square (Area & Perimeter)",
-        ar: "المربع (المساحة والمحيط)",
-        sub: "2D Regular Polygon",
-        latex: "A = s^2 \\quad , \\quad P = 4s \\quad , \\quad d = s\\sqrt{2}",
-        copy: "A = s^2, P = 4*s, d = s*sqrt(2)",
-        note: "s = side length (طول الضلع), d = diagonal (طول القطر)."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Rectangle (Area & Perimeter)",
-        ar: "المستطيل (المساحة والمحيط)",
-        sub: "2D Quadrilateral",
-        latex: "A = l \\cdot w \\quad , \\quad P = 2(l + w)",
-        copy: "A = l * w, P = 2*(l + w)",
-        note: "l = length (الطول), w = width (العرض)."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Triangle (Area, Perimeter & Heron's Formula)",
-        ar: "المثلث (المساحة والمحيط وصيغة هيرون)",
-        sub: "2D Polygon",
-        latex: "A = \\frac{1}{2} b \\cdot h = \\sqrt{s(s-a)(s-b)(s-c)}",
-        copy: "A = 0.5 * b * h = sqrt(s*(s-a)*(s-b)*(s-c))",
-        note: "b = base (القاعدة), h = height/altitude (الارتفاع), s = (a+b+c)/2 is the semi-perimeter (نصف المحيط)."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Equilateral Triangle",
-        ar: "مثلث متساوي الأضلاع",
-        sub: "Special Triangle",
-        latex: "A = \\frac{\\sqrt{3}}{4}s^2 \\quad , \\quad h = \\frac{\\sqrt{3}}{2}s",
-        copy: "A = (sqrt(3)/4)*s^2, h = (sqrt(3)/2)*s",
-        note: "All sides equal s, all interior angles equal 60°. Isosceles Triangle = مثلث متساوي الساقين. Scalene = مختلف الأضلاع."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Trapezoid / Trapezium",
-        ar: "شبه المنحرف",
-        sub: "2D Quadrilateral",
-        latex: "A = \\frac{b_1 + b_2}{2} h \\quad , \\quad P = a + b_1 + b_2 + c",
-        copy: "A = ((b1 + b2) / 2) * h",
-        note: "b1, b2 = parallel bases (القاعدتان المتوازيتان), h = perpendicular height (الارتفاع)."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Parallelogram & Rhombus",
-        ar: "متوازي الأضلاع والمعين",
-        sub: "2D Quadrilaterals",
-        latex: "A_{\\text{parallelogram}} = b \\cdot h = ab\\sin\\theta \\quad , \\quad A_{\\text{rhombus}} = \\frac{1}{2} d_1 d_2",
-        copy: "A_parallelogram = b * h, A_rhombus = 0.5 * d1 * d2",
-        note: "d1, d2 = diagonals of the rhombus (طولا القطرين في المعين)."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Regular Polygon (n-gon)",
-        ar: "المضلع المنتظم",
-        sub: "Interior Angles & Area",
-        latex: "\\text{Sum of Angles} = (n-2)\\cdot 180^\\circ \\quad , \\quad A = \\frac{1}{2} a \\cdot P = \\frac{n s^2}{4\\tan(\\pi/n)}",
-        copy: "Sum_Angles = (n - 2) * 180, A = 0.5 * a * P",
-        note: "n = number of sides (عدد الأضلاع), a = apothem (عامد المضلع / المسافة من المركز للضلع)."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Circle & Annulus (Ring)",
-        ar: "الدائرة والحلقة الدائرية",
-        sub: "Circular Mensuration",
-        latex: "A = \\pi r^2 \\quad , \\quad C = 2\\pi r \\quad , \\quad A_{\\text{annulus}} = \\pi(R^2 - r^2)",
-        copy: "A = pi*r^2, C = 2*pi*r, A_annulus = pi*(R^2 - r^2)",
-        note: "r = inner radius (نصف القطر الداخلي), R = outer radius (نصف القطر الخارجي)."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Ellipse",
-        ar: "القطع الناقص (الشكل البيضاوي)",
-        sub: "2D Conic Area",
-        latex: "A = \\pi a b \\quad , \\quad C \\approx \\pi \\left[ 3(a+b) - \\sqrt{(3a+b)(a+3b)} \\right]",
-        copy: "A = pi * a * b",
-        note: "a = semi-major axis (نصف المحور الأكبر), b = semi-minor axis (نصف المحور الأصغر)."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Cube",
-        ar: "المكعب",
-        sub: "3D Platonic Solid",
-        latex: "V = s^3 \\quad , \\quad SA = 6s^2 \\quad , \\quad d = s\\sqrt{3}",
-        copy: "V = s^3, SA = 6*s^2, d = s*sqrt(3)",
-        note: "s = edge length (طول الحرف), SA = total surface area (المساحة الكلية)."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Rectangular Parallelepiped (Cuboid)",
-        ar: "متوازي المستطيلات",
-        sub: "3D Prism",
-        latex: "V = l \\cdot w \\cdot h \\quad , \\quad SA = 2(lw + wh + lh)",
-        copy: "V = l * w * h, SA = 2*(l*w + w*h + l*h)",
-        note: "l = length (الطول), w = width (العرض), h = height (الارتفاع)."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Right Circular Cylinder",
-        ar: "الأسطوانة الدائرية القائمة",
-        sub: "3D Solid",
-        latex: "V = \\pi r^2 h \\quad , \\quad SA_{\\text{lateral}} = 2\\pi r h \\quad , \\quad SA_{\\text{total}} = 2\\pi r h + 2\\pi r^2",
-        copy: "V = pi*r^2*h, SA_lateral = 2*pi*r*h, SA_total = 2*pi*r*(h + r)",
-        note: "r = base radius (نصف قطر القاعدة), h = height (الارتفاع)."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Right Circular Cone & Frustum",
-        ar: "المخروط القائم والمخروط الناقص",
-        sub: "3D Solid",
-        latex: "V = \\frac{1}{3}\\pi r^2 h \\quad , \\quad SA = \\pi r l + \\pi r^2 \\quad , \\quad l = \\sqrt{r^2+h^2}",
-        copy: "V = (1/3)*pi*r^2*h, SA = pi*r*l + pi*r^2, l = sqrt(r^2 + h^2)",
-        note: "l = slant height (طول الراسم). Frustum volume: V = (πh/3)(R² + Rr + r²)."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Sphere & Hemisphere",
-        ar: "الكرة ونصف الكرة",
-        sub: "3D Solid",
-        latex: "V = \\frac{4}{3}\\pi r^3 \\quad , \\quad SA = 4\\pi r^2 \\quad , \\quad V_{\\text{hemi}} = \\frac{2}{3}\\pi r^3",
-        copy: "V = (4/3)*pi*r^3, SA = 4*pi*r^2",
-        note: "Total Surface Area of a solid hemisphere = 3πr² (curved 2πr² + base πr²)."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Pyramid & Prism",
-        ar: "الهرم والمنشور",
-        sub: "3D Polyhedra",
-        latex: "V_{\\text{prism}} = B \\cdot h \\quad , \\quad V_{\\text{pyramid}} = \\frac{1}{3} B \\cdot h",
-        copy: "V_prism = B * h, V_pyramid = (1/3) * B * h",
-        note: "B = Area of the base (مساحة القاعدة), h = perpendicular height (الارتفاع العمودي)."
-      },
-      {
-        category: "Geometry & Mensuration",
-        categoryAr: "الهندسة والقياس (المساحات والحجوم)",
-        en: "Torus (Doughnut Solid)",
-        ar: "الطارة (المجسم الحلقي)",
-        sub: "3D Surface of Revolution",
-        latex: "V = 2\\pi^2 R r^2 \\quad , \\quad SA = 4\\pi^2 R r",
-        copy: "V = 2*pi^2*R*r^2, SA = 4*pi^2*R*r",
-        note: "R = major radius from center of hole to tube center, r = tube radius."
-      },
+      // Geometry
+      { category: "geometry", en: "Square Area & Perimeter", ar: "المربع", latex: "A = s^2, \\quad P = 4s", note: "s = side length." },
+      { category: "geometry", en: "Rectangle Area & Perimeter", ar: "المستطيل", latex: "A = l \\cdot w, \\quad P = 2(l+w)", note: "l = length, w = width." },
+      { category: "geometry", en: "Triangle Area", ar: "مساحة المثلث", latex: "A = \\frac{1}{2}bh", note: "b = base, h = height." },
+      { category: "geometry", en: "Circle Area & Circumference", ar: "الدائرة", latex: "A = \\pi r^2, \\quad C = 2\\pi r", note: "r = radius." },
+      { category: "geometry", en: "Right Cylinder Volume", ar: "حجم الأسطوانة", latex: "V = \\pi r^2 h", note: "r = radius, h = height." },
+      { category: "geometry", en: "Right Cone Volume", ar: "حجم المخروط", latex: "V = \\frac{1}{3}\\pi r^2 h", note: "Standard circular cone." },
+      { category: "geometry", en: "Sphere Volume & Area", ar: "حجم ومساحة الكرة", latex: "V = \\frac{4}{3}\\pi r^3, \\quad A = 4\\pi r^2", note: "3D spherical solid." },
+      { category: "geometry", en: "Trapezoid Area", ar: "شبه المنحرف", latex: "A = \\frac{b_1 + b_2}{2}h", note: "b1, b2 = parallel bases." },
 
-      // ==========================================
-      // 3. CIRCLE GEOMETRY & ANALYTIC CONICS
-      // ==========================================
-      {
-        category: "Circle Geometry",
-        categoryAr: "هندسة الدائرة والقطاعات والقطوع",
-        en: "Chord Length",
-        ar: "طول الوتر في الدائرة",
-        sub: "Circle Line Segment",
-        latex: "L_{\\text{chord}} = 2r \\sin\\left(\\frac{\\theta}{2}\\right) = 2\\sqrt{r^2 - d^2}",
-        copy: "L_chord = 2 * r * sin(theta / 2) = 2 * sqrt(r^2 - d^2)",
-        note: "A chord (وتر) connects two points on a circle. d = perpendicular distance from center to chord (البعد العمودي عن المركز)."
-      },
-      {
-        category: "Circle Geometry",
-        categoryAr: "هندسة الدائرة والقطاعات والقطوع",
-        en: "Tangent & Secant Lines",
-        ar: "المماس والقاطع ونظرية القوة",
-        sub: "Tangent-Secant Theorem",
-        latex: "PT^2 = PA \\cdot PB \\quad , \\quad r \\perp \\text{Tangent}",
-        copy: "PT^2 = PA * PB",
-        note: "Tangent (المماس) touches the circle at one point (Point of Tangency نقطة التماس) and is perpendicular to the radius. Secant (القاطع) intersects at two points."
-      },
-      {
-        category: "Circle Geometry",
-        categoryAr: "هندسة الدائرة والقطاعات والقطوع",
-        en: "Arc Length",
-        ar: "طول القوس",
-        sub: "Circular Arc (القوس)",
-        latex: "s = r\\theta_{\\text{rad}} = \\frac{\\theta_{\\text{deg}}}{360^\\circ} \\cdot 2\\pi r",
-        copy: "s = r * theta_rad = (theta_deg / 360) * 2 * pi * r",
-        note: "θ in radians (التقدير الدائري) or degrees (التقدير الستيني)."
-      },
-      {
-        category: "Circle Geometry",
-        categoryAr: "هندسة الدائرة والقطاعات والقطوع",
-        en: "Area of a Circular Sector",
-        ar: "مساحة القطاع الدائري",
-        sub: "Pie-Slice Region",
-        latex: "A_{\\text{sector}} = \\frac{1}{2} r^2 \\theta_{\\text{rad}} = \\frac{1}{2} s \\cdot r = \\frac{\\theta_{\\text{deg}}}{360^\\circ} \\pi r^2",
-        copy: "A_sector = 0.5 * r^2 * theta_rad = 0.5 * s * r",
-        note: "Bounded by two radii and an arc. Perimeter of sector = 2r + s."
-      },
-      {
-        category: "Circle Geometry",
-        categoryAr: "هندسة الدائرة والقطاعات والقطوع",
-        en: "Area of a Circular Segment",
-        ar: "مساحة القطعة الدائرية",
-        sub: "Chord-Bounded Region",
-        latex: "A_{\\text{segment}} = \\frac{1}{2} r^2 (\\theta_{\\text{rad}} - \\sin\\theta)",
-        copy: "A_segment = 0.5 * r^2 * (theta_rad - sin(theta))",
-        note: "Region between a Chord (وتر) and its corresponding Arc (قوس)."
-      },
-      {
-        category: "Circle Geometry",
-        categoryAr: "هندسة الدائرة والقطاعات والقطوع",
-        en: "Central & Inscribed Angles",
-        ar: "الزاوية المركزية والزاوية المحيطية",
-        sub: "Circle Angle Theorems",
-        latex: "\\theta_{\\text{central}} = 2 \\theta_{\\text{inscribed}} \\quad , \\quad \\theta_{\\text{semicircle}} = 90^\\circ",
-        copy: "theta_central = 2 * theta_inscribed",
-        note: "Central Angle (زاوية مركزية) has vertex at center. Inscribed Angle (زاوية محيطية) has vertex on circumference. Cyclic Quadrilateral = شكل رباعي دائري."
-      },
-      {
-        category: "Circle Geometry",
-        categoryAr: "هندسة الدائرة والقطاعات والقطوع",
-        en: "Standard & General Equation of a Circle",
-        ar: "معادلة الدائرة (القياسية والعامة)",
-        sub: "Analytic Geometry",
-        latex: "(x - h)^2 + (y - k)^2 = r^2 \\quad , \\quad x^2 + y^2 + 2gx + 2fy + c = 0",
-        copy: "(x - h)^2 + (y - k)^2 = r^2",
-        note: "Center C(h, k) = (-g, -f), Radius r = sqrt(g² + f² - c)."
-      },
-      {
-        category: "Circle Geometry",
-        categoryAr: "هندسة الدائرة والقطاعات والقطوع",
-        en: "Parabola, Ellipse & Hyperbola (Conic Sections)",
-        ar: "القطع المكافئ، القطع الناقص، والقطع الزائد",
-        sub: "Conic Equations (القطوع المخروطية)",
-        latex: "y^2 = 4px \\; , \\; \\frac{(x-h)^2}{a^2} + \\frac{(y-k)^2}{b^2} = 1 \\; , \\; \\frac{(x-h)^2}{a^2} - \\frac{(y-k)^2}{b^2} = 1",
-        copy: "(x-h)^2/a^2 + (y-k)^2/b^2 = 1, (x-h)^2/a^2 - (y-k)^2/b^2 = 1",
-        note: "Focus = البؤرة, Directrix = الدليل, Eccentricity (الاختلاف المركزي) e = c/a."
-      },
-      {
-        category: "Circle Geometry",
-        categoryAr: "هندسة الدائرة والقطاعات والقطوع",
-        en: "Distance, Midpoint & Slope in 2D",
-        ar: "البعد بين نقطتين، نقطة المنتصف، وميل المستقيم",
-        sub: "Coordinate Geometry (الهندسة التحليلية)",
-        latex: "d = \\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2} \\; , \\; M = \\left(\\frac{x_1+x_2}{2}, \\frac{y_1+y_2}{2}\\right) \\; , \\; m = \\frac{y_2-y_1}{x_2-x_1}",
-        copy: "d = sqrt((x2-x1)^2 + (y2-y1)^2), M = ((x1+x2)/2, (y1+y2)/2), m = (y2-y1)/(x2-x1)",
-        note: "Line equation (معادلة الخط المستقيم): y - y1 = m(x - x1) or y = mx + b (where b is y-intercept الجزء المقطوع من محور الصادات)."
-      },
+      // Circles & Conics
+      { category: "circles", en: "Chord Length", ar: "طول الوتر", latex: "L = 2r \\sin(\\theta/2)", note: "Connects two points on circle." },
+      { category: "circles", en: "Tangent Line", ar: "المماس", latex: "r \\perp \\text{Tangent}", note: "Touches circle at exactly one point." },
+      { category: "circles", en: "Arc Length", ar: "طول القوس", latex: "s = r\\theta", note: "θ in radians." },
+      { category: "circles", en: "Circular Sector Area", ar: "مساحة القطاع الدائري", latex: "A = \\frac{1}{2}r^2\\theta", note: "Pie-slice region." },
+      { category: "circles", en: "Circle Equation", ar: "معادلة الدائرة", latex: "(x-h)^2 + (y-k)^2 = r^2", note: "Center (h,k), radius r." },
+      { category: "circles", en: "Ellipse Equation", ar: "معادلة القطع الناقص", latex: "\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1", note: "Standard horizontal ellipse." },
 
-      // ==========================================
-      // 4. TRIGONOMETRY (FROM PHOTOS)
-      // ==========================================
-      {
-        category: "Trigonometry",
-        categoryAr: "حساب المثلثات والمتطابقات المثلثية",
-        en: "Primary Trigonometric Functions (Sine, Cosine, Tangent)",
-        ar: "الدوال المثلثية الأساسية: الجيب (جا)، جيب التمام (جتا)، الظل (ظا)",
-        sub: "Right Triangle Definitions",
-        latex: "\\sin\\theta = \\frac{\\text{Opposite}}{\\text{Hypotenuse}} \\; , \\; \\cos\\theta = \\frac{\\text{Adjacent}}{\\text{Hypotenuse}} \\; , \\; \\tan\\theta = \\frac{\\text{Opposite}}{\\text{Adjacent}}",
-        copy: "sin(theta) = Opposite/Hypotenuse, cos(theta) = Adjacent/Hypotenuse, tan(theta) = Opposite/Adjacent",
-        note: "Opposite = المقابل, Adjacent = المجاور, Hypotenuse = الوتر."
-      },
-      {
-        category: "Trigonometry",
-        categoryAr: "حساب المثلثات والمتطابقات المثلثية",
-        en: "Reciprocal Functions (Cosecant, Secant, Cotangent)",
-        ar: "مقلوبات الدوال: قاطع التمام (قتا)، القاطع (قا)، ظل التمام (ظتا)",
-        sub: "Reciprocal Identities",
-        latex: "\\csc\\theta = \\frac{1}{\\sin\\theta} \\; , \\; \\sec\\theta = \\frac{1}{\\cos\\theta} \\; , \\; \\cot\\theta = \\frac{1}{\\tan\\theta} = \\frac{\\cos\\theta}{\\sin\\theta}",
-        copy: "csc(theta) = 1/sin(theta), sec(theta) = 1/cos(theta), cot(theta) = cos(theta)/sin(theta)",
-        note: "Crucial Arabic mapping: قا = sec (1/cos), قتا = csc (1/sin), ظتا = cot (1/tan)."
-      },
-      {
-        category: "Trigonometry",
-        categoryAr: "حساب المثلثات والمتطابقات المثلثية",
-        en: "Radian & Degree Conversion",
-        ar: "التحويل بين التقدير الدائري والستيني",
-        sub: "Angle Units",
-        latex: "\\theta_{\\text{rad}} = \\theta_{\\text{deg}} \\cdot \\frac{\\pi}{180^\\circ} \\quad , \\quad \\theta_{\\text{deg}} = \\theta_{\\text{rad}} \\cdot \\frac{180^\\circ}{\\pi}",
-        copy: "rad = deg * (pi / 180), deg = rad * (180 / pi)",
-        note: "π radians = 180°. 1 radian ≈ 57.2958°."
-      },
-      {
-        category: "Trigonometry",
-        categoryAr: "حساب المثلثات والمتطابقات المثلثية",
-        en: "Pythagorean Trigonometric Identities",
-        ar: "متطابقات فيثاغورس المثلثية",
-        sub: "Fundamental Identities",
-        latex: "\\sin^2\\theta + \\cos^2\\theta = 1 \\; , \\; 1 + \\tan^2\\theta = \\sec^2\\theta \\; , \\; 1 + \\cot^2\\theta = \\csc^2\\theta",
-        copy: "sin^2(x) + cos^2(x) = 1, 1 + tan^2(x) = sec^2(x), 1 + cot^2(x) = csc^2(x)",
-        note: "In Arabic high school: جا²θ + جتا²θ = 1 and 1 + ظا²θ = قا²θ."
-      },
-      {
-        category: "Trigonometry",
-        categoryAr: "حساب المثلثات والمتطابقات المثلثية",
-        en: "Even-Odd & Cofunction Identities",
-        ar: "الدوال الزوجية والفردية والزوايا المتتامة",
-        sub: "Symmetry & Shifts",
-        latex: "\\sin(-x) = -\\sin x \\; , \\; \\cos(-x) = \\cos x \\; , \\; \\sin\\left(\\frac{\\pi}{2} - x\\right) = \\cos x",
-        copy: "sin(-x) = -sin(x), cos(-x) = cos(x), sin(pi/2 - x) = cos(x)",
-        note: "Cosine and Secant are Even (زوجية); Sine, Tangent, Cosecant, Cotangent are Odd (فردية)."
-      },
-      {
-        category: "Trigonometry",
-        categoryAr: "حساب المثلثات والمتطابقات المثلثية",
-        en: "Angle Sum & Difference Identities",
-        ar: "متطابقات مجموع وفرق زاويتين",
-        sub: "Compound Angles",
-        latex: "\\sin(\\alpha \\pm \\beta) = \\sin\\alpha\\cos\\beta \\pm \\cos\\alpha\\sin\\beta \\; , \\; \\cos(\\alpha \\pm \\beta) = \\cos\\alpha\\cos\\beta \\mp \\sin\\alpha\\sin\\beta",
-        copy: "sin(a +- b) = sin(a)cos(b) +- cos(a)sin(b), cos(a +- b) = cos(a)cos(b) -+ sin(a)sin(b)",
-        note: "For tangent: tan(α ± β) = (tan α ± tan β) / (1 ∓ tan α tan β)."
-      },
-      {
-        category: "Trigonometry",
-        categoryAr: "حساب المثلثات والمتطابقات المثلثية",
-        en: "Double-Angle Identities",
-        ar: "متطابقات ضعف الزاوية",
-        sub: "2θ Formulas",
-        latex: "\\sin(2\\theta) = 2\\sin\\theta\\cos\\theta \\; , \\; \\cos(2\\theta) = \\cos^2\\theta - \\sin^2\\theta = 2\\cos^2\\theta - 1 = 1 - 2\\sin^2\\theta",
-        copy: "sin(2x) = 2*sin(x)*cos(x), cos(2x) = cos^2(x) - sin^2(x)",
-        note: "Also tan(2θ) = 2tan(θ) / (1 - tan²(θ))."
-      },
-      {
-        category: "Trigonometry",
-        categoryAr: "حساب المثلثات والمتطابقات المثلثية",
-        en: "Half-Angle & Power-Reduction Identities",
-        ar: "متطابقات نصف الزاوية وتخفيض القوة",
-        sub: "Integration Essentials",
-        latex: "\\sin^2\\theta = \\frac{1 - \\cos(2\\theta)}{2} \\quad , \\quad \\cos^2\\theta = \\frac{1 + \\cos(2\\theta)}{2}",
-        copy: "sin^2(x) = (1 - cos(2x))/2, cos^2(x) = (1 + cos(2x))/2",
-        note: "Essential for integrating even powers of sine and cosine in Calculus."
-      },
-      {
-        category: "Trigonometry",
-        categoryAr: "حساب المثلثات والمتطابقات المثلثية",
-        en: "Product-to-Sum & Sum-to-Product Identities",
-        ar: "تحويل حاصل الضرب إلى مجموع والعكس",
-        sub: "Signal Processing & Harmonics",
-        latex: "\\sin\\alpha\\cos\\beta = \\frac{1}{2}[\\sin(\\alpha+\\beta) + \\sin(\\alpha-\\beta)] \\; , \\; \\cos\\alpha\\cos\\beta = \\frac{1}{2}[\\cos(\\alpha+\\beta) + \\cos(\\alpha-\\beta)]",
-        copy: "sin(a)cos(b) = 0.5*(sin(a+b) + sin(a-b))",
-        note: "Also sin α sin β = 0.5[cos(α - β) - cos(α + β)]."
-      },
-      {
-        category: "Trigonometry",
-        categoryAr: "حساب المثلثات والمتطابقات المثلثية",
-        en: "Law of Sines & Law of Cosines",
-        ar: "قانون الجيب (قاعدة الجيب) وقانون جيب التمام",
-        sub: "Oblique Triangles",
-        latex: "\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C} = 2R \\quad , \\quad c^2 = a^2 + b^2 - 2ab\\cos C",
-        copy: "a/sin(A) = b/sin(B) = c/sin(C) = 2R, c^2 = a^2 + b^2 - 2*a*b*cos(C)",
-        note: "R is the radius of the circumscribed circle (نصف قطر الدائرة المارة برؤوس المثلث)."
-      },
-      {
-        category: "Trigonometry",
-        categoryAr: "حساب المثلثات والمتطابقات المثلثية",
-        en: "Inverse Trigonometric Functions",
-        ar: "الدوال المثلثية العكسية",
-        sub: "Arcus Functions",
-        latex: "y = \\arcsin(x) = \\sin^{-1}(x) \\iff \\sin(y) = x \\quad , \\quad y \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]",
-        copy: "y = arcsin(x) = asin(x), y = arccos(x) = acos(x), y = arctan(x) = atan(x)",
-        note: "Note that sin⁻¹(x) is the inverse function (الدالة العكسية), NOT 1/sin(x)."
-      },
-      {
-        category: "Trigonometry",
-        categoryAr: "حساب المثلثات والمتطابقات المثلثية",
-        en: "Hyperbolic Functions",
-        ar: "الدوال الزائدية (sinh, cosh, tanh)",
-        sub: "Exponential Trig Analogs",
-        latex: "\\sinh x = \\frac{e^x - e^{-x}}{2} \\; , \\; \\cosh x = \\frac{e^x + e^{-x}}{2} \\; , \\; \\cosh^2 x - \\sinh^2 x = 1",
-        copy: "sinh(x) = (e^x - e^-x)/2, cosh(x) = (e^x + e^-x)/2, cosh^2(x) - sinh^2(x) = 1",
-        note: "Used heavily in catenary cables, differential equations, and neural network activations."
-      },
+      // Trigonometry
+      { category: "trig", en: "Pythagorean Identity", ar: "متطابقة فيثاغورس", latex: "\\sin^2\\theta + \\cos^2\\theta = 1", note: "Fundamental trig identity." },
+      { category: "trig", en: "Tangent Identity", ar: "متطابقة الظل", latex: "\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}", note: "Ratio of sin to cos." },
+      { category: "trig", en: "Double-Angle Sine", ar: "جيب ضعف الزاوية", latex: "\\sin(2\\theta) = 2\\sin\\theta\\cos\\theta", note: "Expansion formula." },
+      { category: "trig", en: "Double-Angle Cosine", ar: "جيب تمام ضعف الزاوية", latex: "\\cos(2\\theta) = \\cos^2\\theta - \\sin^2\\theta", note: "Cosine double angle." },
+      { category: "trig", en: "Law of Cosines", ar: "قانون جيب التمام", latex: "c^2 = a^2 + b^2 - 2ab\\cos C", note: "For any triangle." },
 
-      // ==========================================
-      // 5. ALGEBRA, FUNCTIONS & MATRICES (FROM PHOTOS)
-      // ==========================================
-      {
-        category: "Algebra & Functions",
-        categoryAr: "الجبر، الدوال، المصفوفات، والأعداد المركبة",
-        en: "Quadratic Function & General Formula",
-        ar: "الدالة التربيعية والقانون العام",
-        sub: "2nd Degree Polynomial (معادلة الدرجة الثانية)",
-        latex: "ax^2 + bx + c = 0 \\implies x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
-        copy: "x = (-b +- sqrt(b^2 - 4*a*c)) / (2*a)",
-        note: "Discriminant (المميز) Δ = b² - 4ac. Sum of roots (مجموع الجذرين) = -b/a, Product of roots (حاصل ضرب الجذرين) = c/a."
-      },
-      {
-        category: "Algebra & Functions",
-        categoryAr: "الجبر، الدوال، المصفوفات، والأعداد المركبة",
-        en: "Linear, Cubic, Rational & Radical Functions",
-        ar: "الدالة الخطية، التكعيبية، الكسرية، والجذرية",
-        sub: "Classification of Functions (أنواع الدوال)",
-        latex: "f_{\\text{linear}}(x)=mx+b \\; , \\; f_{\\text{cubic}}(x)=ax^3+bx^2+cx+d \\; , \\; f_{\\text{rational}}(x)=\\frac{P(x)}{Q(x)}",
-        copy: "f_linear(x) = m*x + b, f_cubic(x) = a*x^3 + b*x^2 + c*x + d, f_rational(x) = P(x)/Q(x)",
-        note: "Polynomial = كثيرة حدود, Piece-wise Function = دالة معرفة بأكثر من قاعدة, Absolute Value = دالة المقياس |x|."
-      },
-      {
-        category: "Algebra & Functions",
-        categoryAr: "الجبر، الدوال، المصفوفات، والأعداد المركبة",
-        en: "Special Factoring & Binomial Expansions",
-        ar: "المتطابقات الجبرية وتحليل المقادير (فرق ومجموع مكعبين)",
-        sub: "Algebraic Identities (التحليل)",
-        latex: "a^2 - b^2 = (a-b)(a+b) \\quad , \\quad a^3 \\pm b^3 = (a \\pm b)(a^2 \\mp ab + b^2)",
-        copy: "a^2 - b^2 = (a-b)(a+b), a^3 +- b^3 = (a +- b)(a^2 -+ ab + b^2)",
-        note: "Difference of squares (فرق بين مربعين), Sum/Difference of cubes (مجموع وفرق بين مكعبين)."
-      },
-      {
-        category: "Algebra & Functions",
-        categoryAr: "الجبر، الدوال، المصفوفات، والأعداد المركبة",
-        en: "Laws of Exponents & Radicals",
-        ar: "قوانين الأسس والجذور",
-        sub: "Index Laws",
-        latex: "a^m \\cdot a^n = a^{m+n} \\; , \\; \\frac{a^m}{a^n} = a^{m-n} \\; , \\; (a^m)^n = a^{mn} \\; , \\; a^{m/n} = \\sqrt[n]{a^m}",
-        copy: "a^m * a^n = a^(m+n), a^m / a^n = a^(m-n), a^(m/n) = root(n, a^m)",
-        note: "a⁰ = 1 (for a ≠ 0), a⁻ⁿ = 1/aⁿ."
-      },
-      {
-        category: "Algebra & Functions",
-        categoryAr: "الجبر، الدوال، المصفوفات، والأعداد المركبة",
-        en: "Logarithm Laws & Change of Base",
-        ar: "قوانين اللوغاريتمات وتغيير الأساس",
-        sub: "Logarithmic Properties",
-        latex: "\\log_b(xy) = \\log_b x + \\log_b y \\; , \\; \\log_b\\left(\\frac{x}{y}\\right) = \\log_b x - \\log_b y \\; , \\; \\log_b(x^k) = k\\log_b x",
-        copy: "log_b(x*y) = log_b(x) + log_b(y), log_b(x^k) = k*log_b(x), log_b(x) = ln(x)/ln(b)",
-        note: "Natural Log (اللوغاريتم الطبيعي): ln(x) = log_e(x). Change of base: log_b(a) = ln(a)/ln(b)."
-      },
-      {
-        category: "Algebra & Functions",
-        categoryAr: "الجبر، الدوال، المصفوفات، والأعداد المركبة",
-        en: "Arithmetic Progression (AP)",
-        ar: "المتتابعة الحسابية",
-        sub: "Sequences & Series (المتتابعات والمتسلسلات)",
-        latex: "a_n = a_1 + (n-1)d \\quad , \\quad S_n = \\frac{n}{2}(a_1 + a_n) = \\frac{n}{2}[2a_1 + (n-1)d]",
-        copy: "a_n = a_1 + (n-1)*d, S_n = (n/2)*(2*a_1 + (n-1)*d)",
-        note: "a1 = first term (الحد الأول), d = common difference (أساس المتتابعة الحسابية), Sn = sum of n terms (مجموع ن من الحدود)."
-      },
-      {
-        category: "Algebra & Functions",
-        categoryAr: "الجبر، الدوال، المصفوفات، والأعداد المركبة",
-        en: "Geometric Progression (GP) & Infinite Series",
-        ar: "المتتابعة الهندسية والمتسلسلة اللانهائية",
-        sub: "Exponential Sequences",
-        latex: "a_n = a_1 r^{n-1} \\quad , \\quad S_n = a_1\\frac{1 - r^n}{1 - r} \\quad , \\quad S_\\infty = \\frac{a_1}{1 - r} \\; (|r|<1)",
-        copy: "a_n = a_1 * r^(n-1), S_n = a_1 * (1 - r^n)/(1 - r), S_inf = a_1 / (1 - r)",
-        note: "r = common ratio (أساس المتتابعة الهندسية)."
-      },
-      {
-        category: "Algebra & Functions",
-        categoryAr: "الجبر، الدوال، المصفوفات، والأعداد المركبة",
-        en: "Binomial Theorem",
-        ar: "نظرية ذات الحدين",
-        sub: "Polynomial Expansion (مفكوك ذات الحدين)",
-        latex: "(x + y)^n = \\sum_{k=0}^{n} \\binom{n}{k} x^{n-k} y^k \\quad , \\quad T_{r+1} = \\binom{n}{r} x^{n-r} y^r",
-        copy: "(x + y)^n = sum_{k=0..n} C(n, k) * x^(n-k) * y^k",
-        note: "General term (الحد العام) is T_{r+1}."
-      },
-      {
-        category: "Algebra & Functions",
-        categoryAr: "الجبر، الدوال، المصفوفات، والأعداد المركبة",
-        en: "Complex Numbers, Modulus & Euler's Formula",
-        ar: "الأعداد المركبة، المقياس، السعة، وصيغة أويلر",
-        sub: "Complex Plane (المستوى المركب)",
-        latex: "z = x + iy = r(\\cos\\theta + i\\sin\\theta) = r e^{i\\theta} \\quad , \\quad |z| = r = \\sqrt{x^2+y^2}",
-        copy: "z = x + i*y = r*e^(i*theta), |z| = sqrt(x^2 + y^2), z^n = r^n * e^(i*n*theta)",
-        note: "Conjugate (المرافق) z̄ = x - iy. De Moivre's Theorem (نظرية ديموافر): (cos θ + i sin θ)ⁿ = cos(nθ) + i sin(nθ)."
-      },
-      {
-        category: "Algebra & Functions",
-        categoryAr: "الجبر، الدوال، المصفوفات، والأعداد المركبة",
-        en: "Matrix Determinant, Transpose & Inverse",
-        ar: "المصفوفات: المحدد، المدور، والمعكوس الضربي",
-        sub: "Linear Algebra (الجبر الخطي)",
-        latex: "A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\implies \\det(A) = ad - bc \\; , \\; A^{-1} = \\frac{1}{ad-bc}\\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}",
-        copy: "det(A) = a*d - b*c, A^-1 = (1/(a*d - b*c)) * [[d, -b], [-c, a]]",
-        note: "Transpose (مدور المصفوفة) Aᵀ swaps rows (الصفوف) and columns (الأعمدة). Identity Matrix (مصفوفة الوحدة) = I."
-      },
-      {
-        category: "Algebra & Functions",
-        categoryAr: "الجبر، الدوال، المصفوفات، والأعداد المركبة",
-        en: "Eigenvalues & Eigenvectors",
-        ar: "القيم الذاتية والمتجهات الذاتية",
-        sub: "Spectral Decomposition",
-        latex: "A\\mathbf{v} = \\lambda\\mathbf{v} \\iff \\det(A - \\lambda I) = 0",
-        copy: "A*v = lambda*v, det(A - lambda*I) = 0",
-        note: "Fundamental in Principal Component Analysis (PCA), vibrations, and Markov chains."
-      },
-      {
-        category: "Algebra & Functions",
-        categoryAr: "الجبر، الدوال، المصفوفات، والأعداد المركبة",
-        en: "Dot Product & Cross Product of Vectors",
-        ar: "الضرب القياسي والضرب الاتجاهي للمتجهات",
-        sub: "Vector Algebra (جبر المتجهات)",
-        latex: "\\mathbf{a} \\cdot \\mathbf{b} = |\\mathbf{a}||\\mathbf{b}|\\cos\\theta = \\sum a_i b_i \\quad , \\quad |\\mathbf{a} \\times \\mathbf{b}| = |\\mathbf{a}||\\mathbf{b}|\\sin\\theta",
-        copy: "a . b = |a|*|b|*cos(theta), |a x b| = |a|*|b|*sin(theta)",
-        note: "Dot/Scalar Product (الضرب القياسي) yields a scalar; Cross/Vector Product (الضرب الاتجاهي) yields a perpendicular vector."
-      },
+      // Algebra & Matrices
+      { category: "algebra", en: "Quadratic Formula", ar: "القانون العام للدالة التربيعية", latex: "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}", note: "Roots of ax^2+bx+c=0." },
+      { category: "algebra", en: "Arithmetic Progression", ar: "المتتابعة الحسابية", latex: "a_n = a_1 + (n-1)d", note: "Linear sequence." },
+      { category: "algebra", en: "Geometric Progression", ar: "المتتابعة الهندسية", latex: "a_n = a_1 r^{n-1}", note: "Exponential sequence." },
+      { category: "algebra", en: "Logarithm Product Rule", ar: "قانون ضرب اللوغاريتمات", latex: "\\log(xy) = \\log x + \\log y", note: "Log properties." },
+      { category: "algebra", en: "Matrix Determinant (2x2)", ar: "محدد المصفوفة", latex: "\\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = ad - bc", note: "Inverse scaling factor." },
 
-      // ==========================================
-      // 6. STATISTICS & PROBABILITY (FROM PHOTOS)
-      // ==========================================
-      {
-        category: "Statistics & Probability",
-        categoryAr: "الإحصاء والاحتمالات",
-        en: "Arithmetic Mean (Average)",
-        ar: "الوسط الحسابي (المتوسط)",
-        sub: "Central Tendency (مقاييس النزعة المركزية)",
-        latex: "\\bar{x} = \\frac{1}{n}\\sum_{i=1}^{n} x_i \\quad , \\quad \\mu = \\mathbb{E}[X] = \\sum x_i P(x_i)",
-        copy: "x_bar = (1/n) * sum(x_i), mu = E[X] = sum(x_i * P(x_i))",
-        note: "Median = الوسيط (middle value), Mode = المنوال (most frequent value)."
-      },
-      {
-        category: "Statistics & Probability",
-        categoryAr: "الإحصاء والاحتمالات",
-        en: "Variance & Standard Deviation",
-        ar: "التباين والانحراف المعياري",
-        sub: "Dispersion Measures (مقاييس التشتت)",
-        latex: "s^2 = \\frac{1}{n-1}\\sum_{i=1}^{n}(x_i - \\bar{x})^2 \\quad , \\quad s = \\sqrt{s^2}",
-        copy: "s^2 = (1/(n-1)) * sum((x_i - x_bar)^2), sigma = sqrt(Var(X))",
-        note: "s² (or σ²) is Variance (التباين); s (or σ) is Standard Deviation (الانحراف المعياري)."
-      },
-      {
-        category: "Statistics & Probability",
-        categoryAr: "الإحصاء والاحتمالات",
-        en: "Permutations & Combinations",
-        ar: "التباديل والتوافيق",
-        sub: "Combinatorics (طرق العد)",
-        latex: "{}_n P_r = \\frac{n!}{(n-r)!} \\quad , \\quad {}_n C_r = \\binom{n}{r} = \\frac{n!}{r!(n-r)!}",
-        copy: "P(n, r) = n! / (n - r)!, C(n, r) = n! / (r! * (n - r)!)",
-        note: "Permutation (التباديل ⁿPᵣ): order matters (الترتيب مهم). Combination (التوافيق ⁿCᵣ): order does not matter."
-      },
-      {
-        category: "Statistics & Probability",
-        categoryAr: "الإحصاء والاحتمالات",
-        en: "Probability Axioms, Union & Conditional Probability",
-        ar: "قوانين الاحتمالات والاحتمال الشرطي",
-        sub: "Set Probability",
-        latex: "P(A \\cup B) = P(A) + P(B) - P(A \\cap B) \\quad , \\quad P(A \\mid B) = \\frac{P(A \\cap B)}{P(B)}",
-        copy: "P(A U B) = P(A) + P(B) - P(A n B), P(A|B) = P(A n B) / P(B)",
-        note: "Union (الاتحاد ∪), Intersection (التقاطع ∩), Mutually Exclusive Events (حدثان متنافيان: P(A∩B)=0), Independent (مستقلان)."
-      },
-      {
-        category: "Statistics & Probability",
-        categoryAr: "الإحصاء والاحتمالات",
-        en: "Bayes' Theorem",
-        ar: "نظرية بايز",
-        sub: "Posterior Probability & Machine Learning",
-        latex: "P(A \\mid B) = \\frac{P(B \\mid A) P(A)}{P(B)}",
-        copy: "P(A|B) = (P(B|A) * P(A)) / P(B)",
-        note: "Core theorem in AI, classification, and statistical inference."
-      },
-      {
-        category: "Statistics & Probability",
-        categoryAr: "الإحصاء والاحتمالات",
-        en: "Binomial & Poisson Distributions",
-        ar: "توزيع ذات الحدين وتوزيع بواسون",
-        sub: "Discrete Probability Distributions",
-        latex: "P(X=k) = \\binom{n}{k} p^k (1-p)^{n-k} \\quad , \\quad P(X=k) = \\frac{\\lambda^k e^{-\\lambda}}{k!}",
-        copy: "Binomial: C(n,k)*p^k*(1-p)^(n-k), Poisson: (lambda^k * e^-lambda)/k!",
-        note: "Random Variable = المتغير العشوائي."
-      },
-      {
-        category: "Statistics & Probability",
-        categoryAr: "الإحصاء والاحتمالات",
-        en: "Normal (Gaussian) Distribution & Z-Score",
-        ar: "التوزيع الطبيعي والدرجة المعيارية",
-        sub: "Continuous Distribution",
-        latex: "f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{1}{2}\\left(\\frac{x-\\mu}{\\sigma}\\right)^2} \\quad , \\quad z = \\frac{x - \\mu}{\\sigma}",
-        copy: "f(x) = (1/(sigma*sqrt(2*pi))) * exp(-0.5*((x-mu)/sigma)^2), z = (x - mu)/sigma",
-        note: "Standard Normal Distribution has mean μ = 0 and standard deviation σ = 1."
-      },
-      {
-        category: "Statistics & Probability",
-        categoryAr: "الإحصاء والاحتمالات",
-        en: "Covariance, Pearson Correlation & Linear Regression",
-        ar: "التغاير، معامل ارتباط بيرسون، والانحدار الخطي",
-        sub: "Data Science & Regression",
-        latex: "r = \\frac{\\sum (x_i - \\bar{x})(y_i - \\bar{y})}{\\sqrt{\\sum (x_i - \\bar{x})^2 \\sum (y_i - \\bar{y})^2}} \\quad , \\quad \\hat{y} = b_0 + b_1 x",
-        copy: "r = Cov(X,Y) / (sigma_X * sigma_Y), y_hat = b0 + b1*x",
-        note: "Correlation coefficient (معامل الارتباط) r ∈ [-1, 1]. Slope b₁ = r(s_y / s_x)."
-      },
+      // Statistics
+      { category: "stats", en: "Arithmetic Mean", ar: "الوسط الحسابي", latex: "\\bar{x} = \\frac{1}{n}\\sum x_i", note: "Mathematical average." },
+      { category: "stats", en: "Standard Deviation", ar: "الانحراف المعياري", latex: "s = \\sqrt{\\frac{\\sum(x_i-\\bar{x})^2}{n-1}}", note: "Measure of dispersion." },
+      { category: "stats", en: "Permutations", ar: "التباديل", latex: "P(n,r) = \\frac{n!}{(n-r)!}", note: "Order matters." },
+      { category: "stats", en: "Combinations", ar: "التوافيق", latex: "C(n,r) = \\frac{n!}{r!(n-r)!}", note: "Order does not matter." },
+      { category: "stats", en: "Z-Score", ar: "الدرجة المعيارية", latex: "z = \\frac{x - \\mu}{\\sigma}", note: "Normal distribution score." },
 
-      // ==========================================
-      // 7. CALCULUS, DIFFERENTIAL EQUATIONS & CS RULES
-      // ==========================================
-      {
-        category: "Calculus & CS",
-        categoryAr: "التفاضل والتكامل وقوانين علوم الحاسب والهندسة",
-        en: "Standard Limits & L'Hôpital's Rule",
-        ar: "النهايات القياسية وقاعدة لوبيتال",
-        sub: "Limits & Continuity (النهايات والاتصال)",
-        latex: "\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1 \\; , \\; \\lim_{n \\to \\infty}\\left(1 + \\frac{1}{n}\\right)^n = e \\; , \\; \\lim_{x \\to c}\\frac{f(x)}{g(x)} = \\lim_{x \\to c}\\frac{f'(x)}{g'(x)}",
-        copy: "lim_{x->0} sin(x)/x = 1, lim_{x->c} f(x)/g(x) = lim_{x->c} f'(x)/g'(x)",
-        note: "L'Hôpital's Rule applies to indeterminate forms (صيغ غير معينة) 0/0 or ∞/∞."
-      },
-      {
-        category: "Calculus & CS",
-        categoryAr: "التفاضل والتكامل وقوانين علوم الحاسب والهندسة",
-        en: "Definition of the Derivative (First Principles)",
-        ar: "تعريف المشتقة (معدل التغير)",
-        sub: "Differential Calculus (التفاضل)",
-        latex: "f'(x) = \\frac{dy}{dx} = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}",
-        copy: "f'(x) = dy/dx = lim_{h->0} (f(x+h) - f(x)) / h",
-        note: "Represents instantaneous rate of change (معدل التغير اللحظي) and slope of tangent (ميل المماس)."
-      },
-      {
-        category: "Calculus & CS",
-        categoryAr: "التفاضل والتكامل وقوانين علوم الحاسب والهندسة",
-        en: "Power, Product, Quotient & Chain Rules",
-        ar: "قواعد الاشتقاق: القوة، الضرب، القسمة، وقاعدة التسلسل",
-        sub: "Core Differentiation Rules",
-        latex: "\\frac{d}{dx}(uv) = u'v + uv' \\; , \\; \\frac{d}{dx}\\left(\\frac{u}{v}\\right) = \\frac{u'v - uv'}{v^2} \\; , \\; \\frac{dy}{dx} = \\frac{dy}{du}\\cdot\\frac{du}{dx}",
-        copy: "(u*v)' = u'*v + u*v', (u/v)' = (u'*v - u*v')/v^2, d/dx f(g(x)) = f'(g(x))*g'(x)",
-        note: "Chain Rule (قاعدة التسلسل) is the mathematical backbone of Backpropagation in Deep Learning."
-      },
-      {
-        category: "Calculus & CS",
-        categoryAr: "التفاضل والتكامل وقوانين علوم الحاسب والهندسة",
-        en: "Derivatives of Exponential, Log & Trig Functions",
-        ar: "مشتقات الدوال الأسية واللوغاريتمية والمثلثية",
-        sub: "Standard Derivatives",
-        latex: "\\frac{d}{dx}(e^x) = e^x \\; , \\; \\frac{d}{dx}(\\ln x) = \\frac{1}{x} \\; , \\; \\frac{d}{dx}(\\sin x) = \\cos x \\; , \\; \\frac{d}{dx}(\\tan x) = \\sec^2 x",
-        copy: "d/dx(e^x) = e^x, d/dx(ln x) = 1/x, d/dx(sin x) = cos x, d/dx(cos x) = -sin x, d/dx(tan x) = sec^2 x",
-        note: "Also d/dx(aˣ) = aˣ ln(a), and d/dx(arctan x) = 1/(1 + x²)."
-      },
-      {
-        category: "Calculus & CS",
-        categoryAr: "التفاضل والتكامل وقوانين علوم الحاسب والهندسة",
-        en: "Fundamental Theorem of Calculus & Power Integral",
-        ar: "النظرية الأساسية للتفاضل والتكامل",
-        sub: "Integral Calculus (التكامل المحدود وغير المحدود)",
-        latex: "\\int_{a}^{b} f(x)\\,dx = F(b) - F(a) \\quad , \\quad \\int x^n\\,dx = \\frac{x^{n+1}}{n+1} + C \\; (n \\neq -1)",
-        copy: "int_a^b f(x) dx = F(b) - F(a), int x^n dx = x^(n+1)/(n+1) + C",
-        note: "Indefinite Integral = تكامل غير محدود, Definite Integral = تكامل محدود."
-      },
-      {
-        category: "Calculus & CS",
-        categoryAr: "التفاضل والتكامل وقوانين علوم الحاسب والهندسة",
-        en: "Integration by Parts & Substitution",
-        ar: "التكامل بالتجزيء والتكامل بالتعويض",
-        sub: "Integration Techniques (طرق التكامل)",
-        latex: "\\int u\\,dv = u v - \\int v\\,du \\quad , \\quad \\int f(g(x))g'(x)\\,dx = \\int f(u)\\,du",
-        copy: "int u dv = u*v - int v du",
-        note: "Integration by Parts = التكامل بالتجزيء; Integration by Substitution = التكامل بالتعويض."
-      },
-      {
-        category: "Calculus & CS",
-        categoryAr: "التفاضل والتكامل وقوانين علوم الحاسب والهندسة",
-        en: "Taylor & Maclaurin Series",
-        ar: "متسلسلة تايلور وماكلورين",
-        sub: "Function Approximation",
-        latex: "f(x) = \\sum_{n=0}^{\\infty} \\frac{f^{(n)}(a)}{n!}(x-a)^n \\quad , \\quad e^x = \\sum_{n=0}^{\\infty} \\frac{x^n}{n!} = 1 + x + \\frac{x^2}{2!} + \\cdots",
-        copy: "f(x) = sum_{n=0..inf} (f^(n)(a) / n!) * (x - a)^n",
-        note: "Maclaurin Series is Taylor Series centered at a = 0."
-      },
-      {
-        category: "Calculus & CS",
-        categoryAr: "التفاضل والتكامل وقوانين علوم الحاسب والهندسة",
-        en: "Partial Derivatives & Gradient Vector",
-        ar: "المشتقات الجزئية ومتجه الانحدار (Gradient)",
-        sub: "Multivariable Calculus & Optimization",
-        latex: "\\nabla f = \\left( \\frac{\\partial f}{\\partial x_1}, \\frac{\\partial f}{\\partial x_2}, \\dots, \\frac{\\partial f}{\\partial x_n} \\right) \\quad , \\quad \\theta_{t+1} = \\theta_t - \\eta \\nabla J(\\theta_t)",
-        copy: "grad(f) = (df/dx1, df/dx2, ..., df/dxn), theta_(t+1) = theta_t - lr * grad(J)",
-        note: "Partial Derivative = مشتقة جزئية (∂). Gradient Descent (الانحدار التدريجي) minimizes loss functions in AI."
-      },
-      {
-        category: "Calculus & CS",
-        categoryAr: "التفاضل والتكامل وقوانين علوم الحاسب والهندسة",
-        en: "Laplace & Fourier Transforms",
-        ar: "تحويل لابلاس وتحويل فورييه",
-        sub: "Engineering Signals & Systems",
-        latex: "\\mathcal{L}\\{f(t)\\} = F(s) = \\int_{0}^{\\infty} e^{-st}f(t)\\,dt \\quad , \\quad \\hat{f}(\\omega) = \\int_{-\\infty}^{\\infty} f(t)e^{-i\\omega t}\\,dt",
-        copy: "L{f(t)} = int_0^inf e^(-s*t)*f(t) dt",
-        note: "Converts Differential Equations (المعادلات التفاضلية) into algebraic equations in s-domain."
-      },
-      {
-        category: "Calculus & CS",
-        categoryAr: "التفاضل والتكامل وقوانين علوم الحاسب والهندسة",
-        en: "Discrete Summations & Asymptotic Big-O Complexity",
-        ar: "المجاميع المتقطعة، دالة الأرضية والسقف، وتعقيد الخوارزميات",
-        sub: "Computer Science Mathematics (رياضيات الحاسوب)",
-        latex: "\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2} \\quad , \\quad \\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6} \\quad , \\quad T(n) = \\mathcal{O}(n\\log n)",
-        copy: "sum_{i=1..n} i = n*(n+1)/2, sum_{i=1..n} i^2 = n*(n+1)*(2*n+1)/6",
-        note: "Floor ⌊x⌋ = دالة الجزء الصحيح (الأرضية), Ceiling ⌈x⌉ = دالة السقف, Modulo (باقي القسمة) = a mod n."
-      },
-      {
-        category: "Calculus & CS",
-        categoryAr: "التفاضل والتكامل وقوانين علوم الحاسب والهندسة",
-        en: "Boolean Algebra & De Morgan's Laws",
-        ar: "الجبر البولياني وقوانين دي مورغان",
-        sub: "Digital Logic & Discrete Math (المنطق الرقمي)",
-        latex: "\\overline{A \\cdot B} = \\bar{A} + \\bar{B} \\quad , \\quad \\overline{A + B} = \\bar{A} \\cdot \\bar{B} \\quad , \\quad \\neg(P \\wedge Q) \\iff (\\neg P) \\vee (\\neg Q)",
-        copy: "NOT(A AND B) = (NOT A) OR (NOT B), NOT(A OR B) = (NOT A) AND (NOT B)",
-        note: "Conjunction (AND ∧ = و), Disjunction (OR ∨ = أو), Negation (NOT ¬ = نفي), Exclusive OR (XOR ⊕)."
-      }
+      // Calculus & CS
+      { category: "calculus", en: "Power Rule (Derivative)", ar: "قاعدة القوة في الاشتقاق", latex: "\\frac{d}{dx}(x^n) = nx^{n-1}", note: "Basic differentiation." },
+      { category: "calculus", en: "Chain Rule", ar: "قاعدة التسلسل", latex: "\\frac{d}{dx}f(g(x)) = f'(g(x))g'(x)", note: "Composite functions." },
+      { category: "calculus", en: "Power Rule (Integral)", ar: "قاعدة القوة في التكامل", latex: "\\int x^n dx = \\frac{x^{n+1}}{n+1} + C", note: "Anti-derivative." },
+      { category: "calculus", en: "Integration by Parts", ar: "التكامل بالتجزيء", latex: "\\int u dv = uv - \\int v du", note: "Product rule reversal." },
+      { category: "calculus", en: "Big-O Complexity (MergeSort)", ar: "تعقيد الخوارزميات", latex: "T(n) = \\mathcal{O}(n \\log n)", note: "Divide and conquer time complexity." },
+      { category: "calculus", en: "De Morgan's Laws", ar: "قوانين دي مورغان", latex: "\\overline{A \\cdot B} = \\bar{A} + \\bar{B}", note: "Boolean logic conversion." }
     ];
 
-    let activeCategory = 'all';
-    let searchQuery = '';
+    function switchPage(pageId) {
+      document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`page-${pageId}`).classList.remove('hidden');
 
-    const categories = [
-      { id: 'all', label: 'All Sections', ar: 'جميع الأقسام' },
-      { id: 'Fundamental Vocabulary', label: '01. Vocabulary', ar: 'المصطلحات' },
-      { id: 'Geometry & Mensuration', label: '02. Geometry & Solids', ar: 'الهندسة والحجوم' },
-      { id: 'Circle Geometry', label: '03. Circles & Conics', ar: 'الدائرة والقطوع' },
-      { id: 'Trigonometry', label: '04. Trigonometry', ar: 'حساب المثلثات' },
-      { id: 'Algebra & Functions', label: '05. Algebra & Matrices', ar: 'الجبر والمصفوفات' },
-      { id: 'Statistics & Probability', label: '06. Statistics', ar: 'الإحصاء والاحتمالات' },
-      { id: 'Calculus & CS', label: '07. Calculus & CS', ar: 'التفاضل وعلوم الحاسب' }
-    ];
-
-    function renderCategoryButtons() {
-      const container = document.getElementById('category-buttons');
-      container.innerHTML = categories.map(cat => {
-        const isActive = activeCategory === cat.id;
-        return `
-          <button 
-            onclick="setCategory('${cat.id}')"
-            class="h-10 px-4 text-[11px] uppercase tracking-[0.18em] transition-all duration-500 border ${
-              isActive 
-                ? 'bg-charcoal text-alabaster border-charcoal shadow-[0_4px_16px_rgba(0,0,0,0.15)]' 
-                : 'bg-transparent text-charcoal border-charcoal/30 hover:border-charcoal'
-            }"
-          >
-            <span>${cat.label}</span>
-          </button>
-        `;
-      }).join('');
-    }
-
-    function setCategory(catId) {
-      activeCategory = catId;
-      const catObj = categories.find(c => c.id === catId);
-      document.getElementById('active-category-label').textContent = 
-        catId === 'all' ? 'Showing All 7 Engineering & CS Sections' : `Section Filter: ${catObj.label} — ${catObj.ar}`;
-      renderCategoryButtons();
-      renderLexicon();
-    }
-
-    function clearSearch() {
-      const input = document.getElementById('search-input');
-      input.value = '';
-      searchQuery = '';
-      document.getElementById('clear-search').classList.add('hidden');
-      renderLexicon();
-    }
-
-    function copyEquation(equationText) {
-      navigator.clipboard.writeText(equationText);
-      const toast = document.getElementById('copy-toast');
-      const toastText = document.getElementById('copy-toast-text');
-      toastText.textContent = equationText;
-      toast.classList.remove('translate-y-32', 'opacity-0');
-      setTimeout(() => {
-        toast.classList.add('translate-y-32', 'opacity-0');
-      }, 2400);
-    }
-
-    function renderLexicon() {
-      const container = document.getElementById('lexicon-container');
-      const query = searchQuery.trim().toLowerCase();
-
-      const filtered = mathLexicon.filter(item => {
-        const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
-        const matchesSearch = !query || 
-          item.en.toLowerCase().includes(query) ||
-          item.ar.includes(query) ||
-          item.sub.toLowerCase().includes(query) ||
-          item.note.toLowerCase().includes(query) ||
-          item.copy.toLowerCase().includes(query);
-        return matchesCategory && matchesSearch;
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if(btn.dataset.page === pageId) {
+          btn.classList.add('text-accent', 'border-b-2', 'border-accent');
+        } else {
+          btn.classList.remove('text-accent', 'border-b-2', 'border-accent');
+        }
       });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-      document.getElementById('total-counter').textContent = `${filtered.length} Active Entries`;
+    function copyEq(text) {
+      navigator.clipboard.writeText(text);
+      const toast = document.getElementById('toast');
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2000);
+    }
 
-      if (filtered.length === 0) {
-        container.innerHTML = `
-          <div class="border-t border-charcoal py-20 text-center">
-            <p class="font-serif text-3xl text-charcoal mb-3">No matching mathematical definitions found.</p>
-            <p class="text-sm text-warmgrey mb-6">Try searching in English (e.g., "Chord", "Derivative") or Arabic (e.g., "وتر", "مساحة").</p>
-            <button onclick="clearSearch(); setCategory('all');" class="btn-luxury bg-charcoal text-alabaster px-8 h-12 text-xs uppercase tracking-[0.2em]">
-              <span>Reset All Filters</span>
+    function renderAll() {
+      // Render Home Core Terms
+      const homeGrid = document.getElementById('core-terms-grid');
+      const homeItems = lexiconData.filter(item => item.category === 'home');
+      homeGrid.innerHTML = homeItems.map(item => `
+        <div class="bg-cardbg border border-bordercol p-5 flex flex-col justify-between hover:border-accent transition-colors">
+          <div>
+            <div class="flex justify-between items-start mb-3">
+              <span class="font-bold text-base text-slate-100">${item.en}</span>
+              <span class="font-arabic font-bold text-lg text-accent" dir="rtl">${item.ar}</span>
+            </div>
+            <div class="bg-darkbg p-3 border border-bordercol my-3 overflow-x-auto">
+              $${item.latex}$
+            </div>
+            <p class="text-xs text-slate-400 mb-4">${item.note}</p>
+          </div>
+          <button onclick="copyEq('${item.latex.replace(/\\/g, '\\\\')}')" class="w-full bg-bordercol hover:bg-accent hover:text-darkbg text-xs font-mono py-2 transition-colors">
+            Copy Equation
+          </button>
+        </div>
+      `).join('');
+
+      // Render other category pages
+      ['geometry', 'circles', 'trig', 'algebra', 'stats', 'calculus'].forEach(cat => {
+        const container = document.getElementById(`container-${cat}`);
+        const items = lexiconData.filter(item => item.category === cat);
+        container.innerHTML = items.map(item => `
+          <div class="bg-cardbg border border-bordercol p-5 flex flex-col justify-between hover:border-accent transition-colors">
+            <div>
+              <div class="flex justify-between items-start mb-3">
+                <span class="font-bold text-base text-slate-100">${item.en}</span>
+                <span class="font-arabic font-bold text-lg text-accent" dir="rtl">${item.ar}</span>
+              </div>
+              <div class="bg-darkbg p-3 border border-bordercol my-3 overflow-x-auto">
+                $${item.latex}$
+              </div>
+              <p class="text-xs text-slate-400 mb-4">${item.note}</p>
+            </div>
+            <button onclick="copyEq('${item.latex.replace(/\\/g, '\\\\')}')" class="w-full bg-bordercol hover:bg-accent hover:text-darkbg text-xs font-mono py-2 transition-colors">
+              Copy Equation
             </button>
           </div>
-        `;
-        return;
-      }
-
-      // Group by category
-      const grouped = {};
-      filtered.forEach(item => {
-        if (!grouped[item.category]) {
-          grouped[item.category] = {
-            arTitle: item.categoryAr,
-            items: []
-          };
-        }
-        grouped[item.category].items.push(item);
+        `).join('');
       });
 
-      let html = '';
-      let sectionIndex = 1;
-
-      for (const [catName, group] of Object.entries(grouped)) {
-        html += `
-          <section class="border-t-2 border-charcoal pt-12">
-            <!-- Section Header -->
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-charcoal/15">
-              <div>
-                <div class="flex items-center space-x-3 mb-3">
-                  <span class="text-[10px] uppercase tracking-[0.3em] text-gold font-semibold">Section 0${sectionIndex}</span>
-                  <span class="h-px w-8 bg-charcoal/30"></span>
-                  <span class="text-[10px] uppercase tracking-[0.25em] text-warmgrey">${group.items.length} Formulas & Terms</span>
-                </div>
-                <h3 class="font-serif text-3xl md:text-5xl text-charcoal tracking-tight">${catName}</h3>
-              </div>
-              <div class="mt-4 md:mt-0 font-arabic text-2xl md:text-3xl font-bold text-charcoal/90" dir="rtl">
-                ${group.arTitle}
-              </div>
-            </div>
-
-            <!-- Squary Architectural Math Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-              ${group.items.map(item => `
-                <article class="group border-t-2 border-charcoal bg-alabaster hover:bg-taupe/35 p-8 border-x border-b border-charcoal/15 shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-all duration-500 flex flex-col justify-between">
-                  <div>
-                    <!-- Top Metadata -->
-                    <div class="flex items-center justify-between text-[10px] uppercase tracking-[0.25em] text-warmgrey mb-4">
-                      <span>${item.sub}</span>
-                      <span class="w-2 h-2 border border-charcoal group-hover:bg-gold group-hover:border-gold transition-colors duration-500"></span>
-                    </div>
-
-                    <!-- English & Arabic Term Pairing -->
-                    <div class="mb-6 pb-4 border-b border-charcoal/10">
-                      <h4 class="font-serif text-2xl text-charcoal group-hover:text-gold transition-colors duration-500 mb-2">
-                        ${item.en}
-                      </h4>
-                      <div class="font-arabic text-xl font-semibold text-charcoal" dir="rtl">
-                        ${item.ar}
-                      </div>
-                    </div>
-
-                    <!-- Pure English Equation Box -->
-                    <div class="bg-taupe/45 border-l-2 border-gold px-4 py-5 mb-5 overflow-x-auto text-charcoal text-base">
-                      $$${item.latex}$$
-                    </div>
-
-                    <!-- Bilingual Explanation Note -->
-                    <p class="text-xs text-warmgrey leading-relaxed mb-6">
-                      ${item.note}
-                    </p>
-                  </div>
-
-                  <!-- Bottom Action Bar: Copy English Equation -->
-                  <div class="pt-4 border-t border-charcoal/10 flex items-center justify-between">
-                    <span class="font-mono text-[10px] text-warmgrey truncate max-w-[55%]" title="${item.copy}">
-                      ${item.copy}
-                    </span>
-                    <button 
-                      onclick='copyEquation(${JSON.stringify(item.copy)})'
-                      class="btn-luxury bg-charcoal text-alabaster h-9 px-4 text-[10px] uppercase tracking-[0.2em] font-medium"
-                    >
-                      <span>Copy Equation</span>
-                    </button>
-                  </div>
-                </article>
-              `).join('')}
-            </div>
-          </section>
-        `;
-        sectionIndex++;
-      }
-
-      container.innerHTML = html;
-
-      // Re-typeset MathJax on dynamic update
       if (window.MathJax && window.MathJax.typesetPromise) {
-        window.MathJax.typesetPromise([container]).catch(err => console.warn(err));
+        window.MathJax.typesetPromise().catch(err => console.log(err));
       }
     }
 
-    // Event Listeners
-    document.getElementById('search-input').addEventListener('input', (e) => {
-      searchQuery = e.target.value;
-      const clearBtn = document.getElementById('clear-search');
-      if (searchQuery.length > 0) {
-        clearBtn.classList.remove('hidden');
-      } else {
-        clearBtn.classList.add('hidden');
-      }
-      renderLexicon();
-    });
-
-    // Initial Render
-    renderCategoryButtons();
-    renderLexicon();
+    // Initialize
+    switchPage('home');
+    renderAll();
   </script>
 </body>
 </html>
